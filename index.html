@@ -1,0 +1,3396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEW BE20B Brake Training</title>
+
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+    margin:0;
+    font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;
+    background:#f3f6fa;
+    color:#263238;
+    line-height:1.8
+}
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:285px;
+    background:#172b4d;
+    color:#fff;
+    overflow-y:auto;
+    z-index:1000;
+    box-shadow:4px 0 15px rgba(0,0,0,.18)
+}
+.sidebar-header{
+    padding:22px 20px;
+    background:#10213d;
+    border-bottom:1px solid rgba(255,255,255,.12)
+}
+.sidebar-header h1{
+    margin:0;
+    font-size:20px;
+    line-height:1.5
+}
+.sidebar-header p{
+    margin:8px 0 0;
+    color:#b9c7d8;
+    font-size:13px
+}
+.sidebar-nav{padding:14px 10px 30px}
+.sidebar-nav a{
+    display:block;
+    padding:9px 12px;
+    margin:2px 0;
+    color:#dce6f2;
+    text-decoration:none;
+    font-size:14px;
+    line-height:1.5;
+    border-radius:6px;
+    transition:.2s
+}
+.sidebar-nav a:hover{background:#24456f;color:#fff}
+.sidebar-nav a.active{background:#1677ff;color:#fff;font-weight:bold}
+.sidebar-nav .level-1{font-weight:bold;margin-top:9px}
+.sidebar-nav .level-2{padding-left:25px;font-size:13px}
+
+.main{
+    margin-left:285px;
+    width:calc(100% - 285px);
+    min-height:100vh;
+    padding:30px 35px 70px
+}
+.content{width:100%;max-width:1500px;margin:auto}
+
+.language-switcher{
+    position:fixed;
+    right:25px;
+    top:20px;
+    z-index:1200;
+    display:flex;
+    gap:4px;
+    background:rgba(23,43,77,.96);
+    padding:5px;
+    border-radius:8px;
+    box-shadow:0 4px 14px rgba(0,0,0,.2)
+}
+.language-switcher button{
+    border:0;
+    background:transparent;
+    color:#dce6f2;
+    padding:7px 10px;
+    border-radius:5px;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:13px;
+    font-weight:bold
+}
+.language-switcher button:hover{background:#24456f;color:#fff}
+.language-switcher button.active{background:#1976d2;color:#fff}
+
+.hero{
+    background:linear-gradient(135deg,#0d47a1,#1976d2);
+    color:#fff;
+    padding:36px 42px;
+    border-radius:14px;
+    box-shadow:0 8px 25px rgba(13,71,161,.22);
+    margin-bottom:25px
+}
+.hero h1{margin:10px 0;font-size:32px;line-height:1.4}
+.hero p{margin:6px 0;color:#e4efff}
+.badge{
+    display:inline-block;
+    background:#fff;
+    color:#0d47a1;
+    padding:4px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+    margin-right:7px
+}
+
+.section{
+    background:#fff;
+    margin-bottom:25px;
+    padding:30px 36px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
+    border:1px solid #e5eaf0;
+    scroll-margin-top:25px
+}
+.section h2{
+    color:#0d47a1;
+    border-left:5px solid #1976d2;
+    padding-left:13px;
+    margin-top:0;
+    margin-bottom:20px;
+    font-size:25px
+}
+.section h3{color:#1565c0;margin-top:27px;margin-bottom:12px;font-size:20px}
+.section h4{color:#37474f;margin-top:21px;margin-bottom:8px}
+p{margin:10px 0}
+ul,ol{padding-left:25px}
+li{margin:6px 0}
+
+.info,.warning,.danger,.success{
+    padding:15px 18px;
+    margin:18px 0;
+    border-radius:6px
+}
+.info{background:#e3f2fd;border-left:5px solid #2196f3}
+.warning{background:#fff8e1;border-left:5px solid #ffb300}
+.danger{background:#ffebee;border-left:5px solid #e53935}
+.success{background:#e8f5e9;border-left:5px solid #43a047}
+
+.table-wrap{width:100%;overflow-x:auto;margin:18px 0}
+table{
+    width:100%;
+    min-width:700px;
+    border-collapse:collapse;
+    background:#fff
+}
+th{
+    background:#0d47a1;
+    color:#fff;
+    padding:12px 10px;
+    text-align:left;
+    border:1px solid #0d47a1
+}
+td{
+    padding:11px 10px;
+    border:1px solid #dfe5eb;
+    vertical-align:top
+}
+tr:nth-child(even){background:#f8fafc}
+
+.code{
+    background:#263238;
+    color:#e8f5e9;
+    padding:17px 20px;
+    border-radius:8px;
+    font-family:Consolas,"Courier New",monospace;
+    white-space:pre-wrap;
+    overflow-x:auto;
+    margin:15px 0
+}
+.parameter{
+    background:#f5f7fa;
+    border:1px solid #dfe5eb;
+    padding:15px;
+    border-radius:8px;
+    margin:10px 0;
+    font-family:Consolas,"Courier New",monospace
+}
+.measure-box{
+    background:#fafafa;
+    border:2px solid #d9e2ec;
+    border-radius:8px;
+    padding:18px;
+    margin:15px 0
+}
+.step{
+    display:flex;
+    gap:15px;
+    margin:16px 0;
+    padding:16px;
+    background:#f8fafc;
+    border-radius:8px;
+    border:1px solid #e5eaf0
+}
+.step-num{
+    flex:0 0 38px;
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#1976d2;
+    color:#fff;
+    border-radius:50%;
+    font-weight:bold
+}
+.step-content{flex:1}
+
+.tag{
+    display:inline-block;
+    padding:3px 9px;
+    border-radius:4px;
+    font-size:12px;
+    margin-right:5px
+}
+.tag-red{background:#ffebee;color:#c62828}
+.tag-green{background:#e8f5e9;color:#2e7d32}
+.tag-blue{background:#e3f2fd;color:#1565c0}
+.tag-orange{background:#fff3e0;color:#ef6c00}
+
+.flow{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:9px;
+    padding:20px;
+    background:#f8fafc;
+    border-radius:10px;
+    margin:15px 0
+}
+.flow-item{
+    background:#1976d2;
+    color:#fff;
+    padding:10px 15px;
+    border-radius:7px;
+    font-weight:bold
+}
+.flow-item.red{background:#d32f2f}
+.flow-item.green{background:#388e3c}
+.flow-item.orange{background:#ef6c00}
+.arrow{color:#78909c;font-size:22px}
+
+.diagnosis-card{
+    border:1px solid #dce3ea;
+    border-radius:10px;
+    margin:15px 0;
+    overflow:hidden
+}
+.diagnosis-title{
+    background:#f1f5f9;
+    padding:12px 16px;
+    font-weight:bold;
+    color:#0d47a1
+}
+.diagnosis-body{padding:16px}
+
+.big-number{font-size:28px;font-weight:bold;color:#d32f2f}
+.highlight{color:#d32f2f;font-weight:bold}
+.blue-text{color:#1565c0;font-weight:bold}
+.green-text{color:#2e7d32;font-weight:bold}
+
+.top-btn{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    width:45px;
+    height:45px;
+    background:#1976d2;
+    color:#fff;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    box-shadow:0 4px 12px rgba(0,0,0,.2);
+    z-index:1100;
+    font-size:22px
+}
+.footer{
+    text-align:center;
+    color:#78909c;
+    font-size:13px;
+    padding:20px
+}
+
+@media print{
+    .sidebar,.top-btn,.language-switcher{display:none}
+    .main{margin-left:0;width:100%;padding:0}
+    .section{box-shadow:none;break-inside:avoid}
+}
+@media(max-width:1000px){
+    .sidebar{width:240px}
+    .main{margin-left:240px;width:calc(100% - 240px);padding:20px}
+    .hero h1{font-size:27px}
+    .section{padding:25px}
+}
+@media(max-width:680px){
+    .sidebar{
+        position:relative;
+        width:100%;
+        height:auto;
+        max-height:none
+    }
+    .sidebar-nav{max-height:330px;overflow-y:auto}
+    .main{margin-left:0;width:100%;padding:15px}
+    .hero{padding:25px 20px}
+    .hero h1{font-size:23px}
+    .section{padding:20px 16px}
+    .section h2{font-size:21px}
+    .step{flex-direction:column}
+    .flow{flex-direction:column;align-items:stretch}
+    .arrow{text-align:center;transform:rotate(90deg)}
+    .language-switcher{
+        position:sticky;
+        top:0;
+        right:auto;
+        justify-content:center;
+        border-radius:0;
+        padding:7px;
+        background:#10213d
+    }
+    .language-switcher button{flex:1;max-width:110px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ==================== LANGUAGE SWITCHER ==================== -->
+
+<div class="language-switcher">
+    <button data-lang="zh" class="active" onclick="switchLanguage('zh')">中文</button>
+    <button data-lang="en" onclick="switchLanguage('en')">English</button>
+    <button data-lang="sr" onclick="switchLanguage('sr')">Srpski</button>
+</div>
+
+<!-- ==================== SIDEBAR ==================== -->
+
+<aside class="sidebar">
+
+<div class="sidebar-header">
+    <h1 data-i18n="side_title">SEW BE20B<br>刹车更换培训</h1>
+    <p data-i18n="side_subtitle">堆垛机升降系统故障诊断与维修</p>
+</div>
+
+<nav class="sidebar-nav">
+
+<a href="#case" class="level-1" data-i18n="nav_case">一、案例分析</a>
+<a href="#case-overview" class="level-2" data-i18n="nav_case_overview">1. 故障现象</a>
+<a href="#fault-code" class="level-2" data-i18n="nav_fault_code">2. F7900故障代码</a>
+<a href="#history" class="level-2" data-i18n="nav_history">3. BOP-2 历史记录</a>
+<a href="#history-detail" class="level-2" data-i18n="nav_history_detail">4. 历史记录详细查询</a>
+<a href="#diagnosis" class="level-2" data-i18n="nav_diagnosis">5. 完整诊断过程</a>
+
+<a href="#rectifier" class="level-1" data-i18n="nav_rectifier">二、整流块GBE1.5</a>
+<a href="#rectifier-principle" class="level-2" data-i18n="nav_rectifier_principle">1. 整流块作用</a>
+<a href="#rectifier-input" class="level-2" data-i18n="nav_rectifier_input">2. 输入电压测量</a>
+<a href="#rectifier-output" class="level-2" data-i18n="nav_rectifier_output">3. 输出电压测量</a>
+<a href="#rectifier-judgement" class="level-2" data-i18n="nav_rectifier_judgement">4. 正常值判断</a>
+<a href="#rectifier-fault" class="level-2" data-i18n="nav_rectifier_fault">5. 整流块故障判断</a>
+
+<a href="#brake" class="level-1" data-i18n="nav_brake">三、BE20B刹车结构</a>
+<a href="#brake-principle" class="level-2" data-i18n="nav_brake_principle">1. 工作原理</a>
+<a href="#brake-components" class="level-2" data-i18n="nav_brake_components">2. 主要组成</a>
+<a href="#brake-gap" class="level-2" data-i18n="nav_brake_gap">3. 刹车间隙</a>
+<a href="#gap-fault" class="level-2" data-i18n="nav_gap_fault">4. 间隙过大的影响</a>
+
+<a href="#replacement" class="level-1" data-i18n="nav_replacement">四、BE20B刹车更换</a>
+<a href="#tools" class="level-2" data-i18n="nav_tools">1. 工具准备</a>
+<a href="#safety" class="level-2" data-i18n="nav_safety">2. 安全措施</a>
+<a href="#remove" class="level-2" data-i18n="nav_remove">3. 拆卸步骤</a>
+<a href="#inspect" class="level-2" data-i18n="nav_inspect">4. 零件检查</a>
+<a href="#install" class="level-2" data-i18n="nav_install">5. 安装步骤</a>
+<a href="#adjust" class="level-2" data-i18n="nav_adjust">6. 间隙调整</a>
+
+<a href="#test" class="level-1" data-i18n="nav_test">五、维修后测试</a>
+<a href="#static-test" class="level-2" data-i18n="nav_static">1. 静态测试</a>
+<a href="#dynamic-test" class="level-2" data-i18n="nav_dynamic">2. 动态测试</a>
+<a href="#load-test" class="level-2" data-i18n="nav_load">3. 负载测试</a>
+
+<a href="#troubleshooting" class="level-1" data-i18n="nav_troubleshooting">六、故障排查</a>
+<a href="#checklist" class="level-1" data-i18n="nav_checklist">七、维修检查清单</a>
+<a href="#summary" class="level-1" data-i18n="nav_summary">八、培训总结</a>
+
+</nav>
+</aside>
+
+<main class="main">
+<div class="content">
+
+<!-- ==================== HERO ==================== -->
+
+<header class="hero">
+
+<span class="badge">SEW</span>
+<span class="badge">BE20B</span>
+<span class="badge" data-i18n="badge_stacker">堆垛机</span>
+<span class="badge" data-i18n="badge_lift">升降系统</span>
+
+<h1 data-i18n="title">
+SEW电机 BE20B 刹车更换详细培训资料
+</h1>
+
+<p data-i18n="subtitle">
+堆垛机升降系统变频器故障诊断、整流块检测、BE20B电磁刹车检查与更换培训
+</p>
+
+<p data-i18n="case_summary">
+典型案例：变频器F7900报警 → 判断堵转 → 检查接触器 → 检查GBE1.5整流块
+→ 检查刹车 → 确认刹车间隙过大 → 刹车无法可靠释放
+</p>
+
+</header>
+
+<!-- ==================== CHAPTER 1 ==================== -->
+
+<section class="section" id="case">
+
+<h2 data-i18n="chapter_case">
+一、案例分析：堆垛机升降变频器故障
+</h2>
+
+<div class="info">
+<strong data-i18n="case_background_label">案例背景：</strong>
+<span data-i18n="case_background">
+90度一线11号立库堆垛机在执行升降动作时，升降机构无法正常启动。
+维修人员首先从变频器报警入手，通过查看故障历史、检查接触器、
+检查整流块以及检查SEW电机BE20B刹车，最终确认机械刹车间隙过大，
+导致刹车无法可靠释放，电机启动受到机械制动，从而产生堵转类故障。
+</span>
+</div>
+
+<h3 id="case-overview" data-i18n="case_symptom_title">1. 故障现象</h3>
+
+<p data-i18n="case_symptom_text">
+设备正常待机时没有明显异常。当堆垛机执行上升或者下降动作时，
+升降电机无法正常启动，变频器出现故障报警。
+</p>
+
+<div class="table-wrap">
+<table>
+<tr>
+<th data-i18n="th_item">项目</th>
+<th data-i18n="th_site">现场情况</th>
+</tr>
+<tr><td data-i18n="equipment">设备</td><td data-i18n="equipment_v">自动化立体仓库堆垛机</td></tr>
+<tr><td data-i18n="mechanism">机构</td><td data-i18n="mechanism_v">堆垛机升降机构</td></tr>
+<tr><td data-i18n="motor">电机</td><td data-i18n="motor_v">SEW三相异步电机</td></tr>
+<tr><td data-i18n="brake">刹车</td><td>SEW BE20B</td></tr>
+<tr><td data-i18n="inverter">变频器</td><td>SINAMICS G120系列</td></tr>
+<tr><td data-i18n="fault_code">故障代码</td><td><strong>F7900</strong></td></tr>
+<tr><td data-i18n="site_symptom">现场表现</td><td data-i18n="site_symptom_v">发出升降启动命令后，电机不能正常建立旋转</td></tr>
+<tr><td data-i18n="initial_judgement">初步判断</td><td data-i18n="initial_judgement_v">电机堵转/启动异常</td></tr>
+<tr><td data-i18n="final_reason">最终原因</td><td><strong data-i18n="final_reason_v">BE20B刹车间隙过大，刹车无法可靠释放</strong></td></tr>
+</table>
+</div>
+
+<h3 id="fault-code" data-i18n="fault_title">2. 变频器故障代码F7900</h3>
+
+<div class="warning">
+<strong data-i18n="important_note">重要说明：</strong>
+<span data-i18n="fault_note">
+F7900的具体定义应以现场实际SINAMICS变频器型号、固件版本以及厂家诊断信息为准。
+本培训案例按照现场记录的F7900作为故障诊断起点，重点训练维修人员如何从“变频器报警”
+继续向下查找真正原因，而不是看到故障代码就直接更换变频器。
+</span>
+</div>
+
+<div class="code" data-i18n="diagnosis_chain">
+现场故障记录：
+
+变频器：SINAMICS
+故障代码：F7900
+设备：堆垛机升降
+故障现象：启动后电机无法正常运行
+初步判断：堵转 / 启动异常
+
+诊断方向：
+
+变频器
+   ↓
+启动命令
+   ↓
+接触器
+   ↓
+整流块 GBE1.5
+   ↓
+刹车线圈
+   ↓
+BE20B机械机构
+   ↓
+刹车间隙
+   ↓
+电机是否能够自由旋转
+</div>
+
+<h3 id="history" data-i18n="history_title">3. BOP-2 查看故障历史</h3>
+
+<p data-i18n="history_text">
+维修人员在处理故障时，不能只查看变频器当前显示的故障。
+尤其是堆垛机这种间歇性故障，历史记录非常重要。
+</p>
+
+<h4 data-i18n="history_path_title">3.1 BOP-2基本进入路径</h4>
+
+<div class="code">BOP-2
+↓
+Diagnostics
+↓
+Faults
+↓
+查看当前Fault
+↓
+进入History / Fault History
+↓
+查看历史故障</div>
+
+<div class="info">
+<strong data-i18n="training_requirement">培训要求：</strong>
+<span data-i18n="training_requirement_text">
+不同SINAMICS型号及面板软件版本的菜单名称可能略有差异。
+现场应以实际面板显示为准。
+核心原则是：
+</span>
+<strong>Diagnostics → Faults → History</strong>
+</div>
+
+<h3 id="history-detail" data-i18n="history_detail_title">4. 故障历史详细查询方法</h3>
+
+<h4 data-i18n="history_step1_title">第一步：不要立即复位</h4>
+
+<p data-i18n="history_step1_text">
+设备发生F7900后，维修人员第一反应不应该是直接按Reset。
+如果直接复位，可能丢失重要的现场状态信息。
+</p>
+
+<p data-i18n="record_items">正确做法是先记录：</p>
+
+<ul>
+<li data-i18n="record1">故障代码。</li>
+<li data-i18n="record2">故障发生时间。</li>
+<li data-i18n="record3">设备当时执行什么动作。</li>
+<li data-i18n="record4">电机正在上升还是下降。</li>
+<li data-i18n="record5">故障发生前有没有异常声音。</li>
+<li data-i18n="record6">刹车是否动作。</li>
+<li data-i18n="record7">是否伴随其他故障。</li>
+</ul>
+
+<div class="step">
+<div class="step-num">1</div>
+<div class="step-content">
+<strong data-i18n="diag_menu">进入诊断菜单</strong>
+<p data-i18n="diag_menu_text">在BOP-2主界面找到Diagnostics。</p>
+<div class="parameter">Diagnostics</div>
+</div>
+</div>
+
+<div class="step">
+<div class="step-num">2</div>
+<div class="step-content">
+<strong data-i18n="fault_menu">进入Faults</strong>
+<p data-i18n="fault_menu_text">选择Diagnostics → Faults，并确认当前是否存在活动故障。</p>
+<div class="parameter">Diagnostics → Faults</div>
+</div>
+</div>
+
+<div class="step">
+<div class="step-num">3</div>
+<div class="step-content">
+<strong data-i18n="history_menu">查看历史故障</strong>
+<p data-i18n="history_menu_text">在Faults相关菜单中查找History、Fault History或者历史故障记录。</p>
+</div>
+</div>
+
+<div class="step">
+<div class="step-num">4</div>
+<div class="step-content">
+<strong data-i18n="time_analysis">按照时间顺序分析</strong>
+<p data-i18n="time_analysis_text">按照时间顺序查看故障，并判断故障链的发展过程。</p>
+</div>
+</div>
+
+<h4 data-i18n="example_history">例如历史记录显示：</h4>
+
+<div class="code" data-i18n="history_example">
+最近一次：
+F7900
+
+之前：
+F7900
+
+更早：
+过流 / 过载相关故障
+
+更早：
+无故障
+</div>
+
+<p data-i18n="history_logic">
+这时候不能简单地认为变频器本身损坏。应该进一步考虑机械阻力增加、
+电机启动困难、电流增加以及变频器检测异常之间的关系。
+</p>
+
+<div class="flow">
+<div class="flow-item" data-i18n="mechanical_resistance">机械阻力增加</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="motor_start">电机启动困难</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="current_increase">电流增加</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="inverter_detection">变频器检测异常</div>
+<div class="arrow">→</div>
+<div class="flow-item red">F7900</div>
+</div>
+
+<h4 data-i18n="history_question_title">维修诊断思维</h4>
+
+<div class="diagnosis-card">
+<div class="diagnosis-title" data-i18n="diagnosis_thinking">不要只问：“F7900是什么？”</div>
+<div class="diagnosis-body">
+<p data-i18n="ask_more">更应该问：</p>
+<ul>
+<li data-i18n="question1">F7900之前有没有其他故障？</li>
+<li data-i18n="question2">故障发生的时候电机有没有收到运行命令？</li>
+<li data-i18n="question3">刹车有没有释放？</li>
+<li data-i18n="question4">接触器有没有吸合？</li>
+<li data-i18n="question5">整流块有没有输出？</li>
+<li data-i18n="question6">电机有没有产生明显的启动声音？</li>
+<li data-i18n="question7">电机轴是否受到机械制动力？</li>
+</ul>
+</div>
+</div>
+
+<h3 id="diagnosis" data-i18n="complete_diagnosis">5. 完整故障诊断过程</h3>
+
+<div class="flow">
+<div class="flow-item red">F7900</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="view_history">查看历史</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="confirm_command">确认启动命令</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="check_contactor">检查接触器</div>
+<div class="arrow">→</div>
+<div class="flow-item">GBE1.5</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="check_brake">检查刹车</div>
+<div class="arrow">→</div>
+<div class="flow-item orange" data-i18n="check_gap">检查间隙</div>
+<div class="arrow">→</div>
+<div class="flow-item green" data-i18n="confirm_fault">确认故障</div>
+</div>
+
+<h4 data-i18n="stage1">第一阶段：检查变频器</h4>
+<p data-i18n="stage1_text">确认变频器有无运行命令、频率给定是否正常，并查看故障历史。</p>
+
+<h4 data-i18n="stage2">第二阶段：检查接触器</h4>
+<p data-i18n="stage2_text">检查接触器线圈控制电压、触点状态以及机械动作。</p>
+
+<h4 data-i18n="stage3">第三阶段：检查整流块</h4>
+<p data-i18n="stage3_text">确认GBE1.5输入电压正常，并确认输出能够建立。</p>
+
+<h4 data-i18n="stage4">第四阶段：检查BE20B</h4>
+<p data-i18n="stage4_text">如果电气供电正常，但是刹车仍然无法释放，就必须检查线圈、磁轭、摩擦片以及工作间隙。</p>
+
+<h4 data-i18n="stage5">第五阶段：确认机械原因</h4>
+
+<div class="danger">
+<span class="big-number" data-i18n="gap_too_large">刹车间隙过大</span>
+<p data-i18n="gap_effect">
+导致电磁铁吸合行程不足，刹车无法可靠释放，电机启动受到机械制动，
+最终造成变频器报警。
+</p>
+</div>
+
+</section>
+
+<!-- ==================== CHAPTER 2 ==================== -->
+
+<section class="section" id="rectifier">
+
+<h2 data-i18n="chapter_rectifier">二、SEW刹车整流块 GBE1.5 检查</h2>
+
+<h3 id="rectifier-principle" data-i18n="rectifier_function_title">1. 整流块的作用</h3>
+
+<p data-i18n="rectifier_function">
+SEW电机制动器通常需要通过整流装置将交流供电转换为适合刹车线圈工作的直流电压。
+</p>
+
+<div class="flow">
+<div class="flow-item" data-i18n="ac_input">交流输入</div>
+<div class="arrow">→</div>
+<div class="flow-item">GBE1.5</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="dc_output">直流输出</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="brake_coil">刹车线圈</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="brake_release">刹车释放</div>
+</div>
+
+<div class="measure-box">
+<h3 id="rectifier-input" data-i18n="rectifier_input_title">2. 测量GBE1.5输入电压</h3>
+<p data-i18n="rectifier_input">
+首先确认实际现场接线。不要仅凭整流块型号判断输入电压。
+万用表设置为交流电压档ACV，按照现场电路图及整流块端子定义测量输入端。
+</p>
+
+<h3 id="rectifier-output" data-i18n="rectifier_output_title">3. 测量GBE1.5直流输出</h3>
+<p data-i18n="rectifier_output">
+测量整流块输出时，万用表切换到直流电压DCV。
+</p>
+
+<div class="warning">
+<strong data-i18n="danger_electric">注意：</strong>
+<span data-i18n="danger_electric_text">
+整流块输出侧可能存在危险直流电压。必须由具备电气维修资质的人员进行测量。
+万用表及表笔必须满足现场电压等级和安全等级要求。
+</span>
+</div>
+
+<h3 id="rectifier-judgement" data-i18n="rectifier_judgement_title">4. GBE1.5正常值如何判断</h3>
+
+<div class="warning">
+<strong data-i18n="important">非常重要：</strong>
+<span data-i18n="rectifier_warning">
+不能简单地规定“GBE1.5一定必须输出某一个固定电压”。
+实际设备的刹车供电电压、整流方式、接线方式以及制动器配置需要结合具体SEW电机和刹车线圈铭牌确认。
+</span>
+</div>
+
+<p data-i18n="correct_method">正确的判断方法是：</p>
+
+<ol>
+<li data-i18n="check_rating1">确认电机铭牌及刹车铭牌。</li>
+<li data-i18n="check_rating2">确认整流块实际接线方式。</li>
+<li data-i18n="check_rating3">确认整流块输入交流电压。</li>
+<li data-i18n="check_rating4">确认整流块输出直流电压。</li>
+<li data-i18n="check_rating5">将测量结果与实际刹车线圈额定电压和厂家允许范围进行比较。</li>
+</ol>
+
+<h4 data-i18n="record_format">推荐现场记录格式</h4>
+
+<table>
+<tr>
+<th data-i18n="item">项目</th>
+<th data-i18n="rated">设计/额定</th>
+<th data-i18n="measured">现场实测</th>
+<th data-i18n="judgement">判断</th>
+</tr>
+<tr><td data-i18n="ac_input">GBE1.5 AC输入</td><td>______ V AC</td><td>______ V AC</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="dc_output">GBE1.5 DC输出</td><td>______ V DC</td><td>______ V DC</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="coil_voltage">刹车线圈</td><td>______ V DC</td><td>______</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="release_test">启动释放</td><td data-i18n="should_release">应可靠释放</td><td>______</td><td>□OK □NG</td></tr>
+</table>
+
+<h3 id="rectifier-fault" data-i18n="rectifier_fault_title">5. 整流块故障判断</h3>
+
+<table>
+<tr>
+<th data-i18n="symptom">现象</th>
+<th data-i18n="possible_reason">可能原因</th>
+<th data-i18n="check_direction">检查方向</th>
+</tr>
+<tr>
+<td data-i18n="no_input">输入无电压</td>
+<td data-i18n="control_fault">控制线路问题</td>
+<td data-i18n="contactor_fuse">接触器、保险、控制回路</td>
+</tr>
+<tr>
+<td data-i18n="input_ok_output_no">输入正常、输出无电压</td>
+<td data-i18n="rectifier_fault">整流块异常或线路异常</td>
+<td>GBE1.5、<span data-i18n="wiring">接线</span>、<span data-i18n="terminal">端子</span></td>
+</tr>
+<tr>
+<td data-i18n="output_abnormal">输出电压异常</td>
+<td data-i18n="rectifier_supply_fault">整流块、供电方式或负载异常</td>
+<td data-i18n="verify_wiring">核对线路及规格</td>
+</tr>
+<tr>
+<td data-i18n="output_ok_brake_no">输出正常但刹车不释放</td>
+<td data-i18n="coil_mechanical">刹车线圈或机械机构异常</td>
+<td data-i18n="coil_magnet_gap">线圈、磁铁、间隙</td>
+</tr>
+<tr>
+<td data-i18n="intermittent">刹车偶发释放</td>
+<td data-i18n="contact_gap">接触不良或机械间隙问题</td>
+<td data-i18n="terminal_coil_gap">端子、线圈、间隙</td>
+</tr>
+</table>
+
+</div>
+</section>
+
+<!-- ==================== CHAPTER 3 ==================== -->
+
+<section class="section" id="brake">
+
+<h2 data-i18n="chapter_brake">三、SEW BE20B刹车结构与工作原理</h2>
+
+<h3 id="brake-principle" data-i18n="brake_principle_title">1. BE20B工作原理</h3>
+
+<p data-i18n="brake_principle">
+BE20B属于电磁弹簧制动器。它的基本特点是：断电制动、通电释放。
+</p>
+
+<h4 data-i18n="stop_state">电机停止状态</h4>
+
+<div class="flow">
+<div class="flow-item" data-i18n="coil_off">刹车线圈断电</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="magnetic_force_off">电磁力消失</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="spring_force">弹簧产生压力</div>
+<div class="arrow">→</div>
+<div class="flow-item red" data-i18n="friction_brake">摩擦片制动</div>
+</div>
+
+<h4 data-i18n="start_state">电机启动状态</h4>
+
+<div class="flow">
+<div class="flow-item" data-i18n="run_command">运行命令</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="coil_on">刹车线圈通电</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="magnet_pull">电磁铁吸合</div>
+<div class="arrow">→</div>
+<div class="flow-item green" data-i18n="release">刹车释放</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="motor_run">电机运行</div>
+</div>
+
+<h3 id="brake-components" data-i18n="components_title">2. BE20B主要组成</h3>
+
+<table>
+<tr>
+<th data-i18n="component">部件</th>
+<th data-i18n="function">作用</th>
+<th data-i18n="inspection">常见检查项目</th>
+</tr>
+<tr>
+<td data-i18n="brake_coil_component">制动线圈</td>
+<td data-i18n="coil_function">产生电磁力</td>
+<td data-i18n="coil_inspection">供电、电阻、绝缘</td>
+</tr>
+<tr>
+<td data-i18n="magnet_yoke">磁轭/电磁铁</td>
+<td data-i18n="magnet_function">吸合释放机构</td>
+<td data-i18n="magnet_inspection">动作、磨损、污染</td>
+</tr>
+<tr>
+<td data-i18n="friction_disc">摩擦片</td>
+<td data-i18n="friction_function">产生制动力矩</td>
+<td data-i18n="friction_inspection">磨损、烧蚀、污染</td>
+</tr>
+<tr>
+<td data-i18n="spring">弹簧</td>
+<td data-i18n="spring_function">提供制动力</td>
+<td data-i18n="spring_inspection">损伤、疲劳</td>
+</tr>
+<tr>
+<td data-i18n="adjustment">调整机构</td>
+<td data-i18n="adjust_function">调整工作间隙</td>
+<td data-i18n="adjust_inspection">间隙是否符合要求</td>
+</tr>
+<tr>
+<td data-i18n="bolts">安装螺栓</td>
+<td data-i18n="bolt_function">固定刹车组件</td>
+<td data-i18n="bolt_inspection">松动、扭矩</td>
+</tr>
+</table>
+
+<h3 id="brake-gap" data-i18n="gap_title">3. 刹车工作间隙</h3>
+
+<p data-i18n="gap_text">
+刹车工作间隙是BE20B维修过程中非常重要的参数。
+</p>
+
+<p data-i18n="gap_small">
+如果间隙过小，可能导致摩擦片不能完全分离，造成运行过程中持续摩擦。
+</p>
+
+<p data-i18n="gap_large">
+如果间隙过大，则可能导致电磁铁吸合行程不足，刹车不能可靠释放。
+</p>
+
+<div class="flow">
+<div class="flow-item orange" data-i18n="gap_small_label">间隙过小</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="running_friction">运行摩擦</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="temperature">温升</div>
+</div>
+
+<div class="flow">
+<div class="flow-item red" data-i18n="gap_large_label">间隙过大</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="insufficient_pull">吸合不足</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="incomplete_release">刹车释放不完全</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="motor_difficult">电机启动困难</div>
+</div>
+
+<h3 id="gap-fault" data-i18n="gap_fault_title">4. 本案例中刹车间隙过大的影响</h3>
+
+<div class="danger">
+<strong data-i18n="final_fault_chain">最终故障链：</strong>
+<br><br>
+<span data-i18n="chain1">BE20B刹车间隙过大</span><br>↓<br>
+<span data-i18n="chain2">电磁铁吸合行程不足</span><br>↓<br>
+<span data-i18n="chain3">刹车无法完全释放</span><br>↓<br>
+<span data-i18n="chain4">电机启动受到机械阻力</span><br>↓<br>
+<span data-i18n="chain5">电机不能正常建立旋转</span><br>↓<br>
+<span data-i18n="chain6">变频器检测到异常</span><br>↓<br>
+<strong>F7900</strong>
+</div>
+
+<p data-i18n="not_inverter">
+因此，本案例不能简单归类为“变频器坏了”。真正需要解决的是造成电机启动困难的根本原因。
+</p>
+
+</section>
+
+<!-- ==================== CHAPTER 4 ==================== -->
+
+<section class="section" id="replacement">
+
+<h2 data-i18n="chapter_replacement">四、SEW BE20B刹车更换作业</h2>
+
+<h3 id="tools" data-i18n="tools_title">1. 工具准备</h3>
+
+<ul>
+<li data-i18n="tool1">数字万用表。</li>
+<li data-i18n="tool2">符合现场电压等级要求的电气测试工具。</li>
+<li data-i18n="tool3">内六角扳手。</li>
+<li data-i18n="tool4">套筒/梅花扳手。</li>
+<li data-i18n="tool5">扭矩扳手。</li>
+<li data-i18n="tool6">塞尺。</li>
+<li data-i18n="tool7">清洁布。</li>
+<li data-i18n="tool8">必要的清洁剂。</li>
+<li data-i18n="tool9">个人防护用品。</li>
+<li data-i18n="tool10">必要的机械防坠工具。</li>
+</ul>
+
+<h3 id="safety" data-i18n="safety_title">2. 安全措施</h3>
+
+<div class="danger">
+<strong data-i18n="high_risk">堆垛机升降机构属于高风险机械机构。</strong>
+<br><br>
+<span data-i18n="safety_before">
+在进行刹车拆卸之前，必须确保：
+</span>
+<ul>
+<li data-i18n="safe1">设备停止。</li>
+<li data-i18n="safe2">切断主电源。</li>
+<li data-i18n="safe3">执行LOTO上锁挂牌Lockout/Tagout。</li>
+<li data-i18n="safe4">确认电气系统无意外启动条件。</li>
+<li data-i18n="safe5">升降载荷已经得到可靠机械支撑。</li>
+<li data-i18n="safe6">防止货叉、载荷或升降平台突然下落。</li>
+<li data-i18n="safe7">确认电机及刹车不会突然动作。</li>
+</ul>
+</div>
+
+<h3 id="remove" data-i18n="remove_title">3. BE20B拆卸步骤</h3>
+
+<div class="step">
+<div class="step-num">1</div>
+<div class="step-content">
+<strong data-i18n="remove1_title">记录原始状态</strong>
+<p data-i18n="remove1_text">拆卸之前，对电机、刹车、接线、整流块进行拍照。记录电缆编号和端子位置。</p>
+</div>
+</div>
+
+<div class="step">
+<div class="step-num">2</div>
+<div class="step-content">
+<strong data-i18n="remove2_title">执行能源隔离</strong>
+<p data-i18n="remove2_text">切断设备电源，执行LOTO。使用合适仪器确认无电。</p>
+</div>
+</div>
+
+<div class="step">
+<div class="step-num">3</div>
+<div class="step-content">
+<strong data-i18n="remove3_title">拆除刹车电气连接</strong>
+<p data-i18n="remove3_text">拆除刹车线圈相关接线。必须做好线号和端子记录。</p>
+</div>
+</div>
+
+<div class="step">
+<div class="step-num">4</div>
+<div class="step-content">
+<strong data-i18n="remove4_title">拆除固定部件</strong>
+<p data-i18n="remove4_text">按照SEW对应电机和BE20B制动器结构拆除固定螺栓。</p>
+</div>
+</div>
+
+<div class="step">
+<div class="step-num">5</div>
+<div class="step-content">
+<strong data-i18n="remove5_title">取下刹车组件</strong>
+<p data-i18n="remove5_text">拆卸过程中注意不要损伤电机轴、摩擦面以及电气连接部分。</p>
+</div>
+</div>
+
+<h3 id="inspect" data-i18n="inspect_title">4. 拆下后检查</h3>
+
+<table>
+<tr>
+<th data-i18n="inspect_component">检查部件</th>
+<th data-i18n="inspect_content">检查内容</th>
+<th data-i18n="result">结果</th>
+</tr>
+<tr><td data-i18n="friction_disc">摩擦片</td><td data-i18n="inspect_friction">磨损、烧蚀、污染</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="coil">线圈</td><td data-i18n="inspect_coil">外观、接线、绝缘</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="yoke">磁轭</td><td data-i18n="inspect_yoke">吸合面是否异常</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="spring">弹簧</td><td data-i18n="inspect_spring">有无损坏</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="mounting_surface">安装面</td><td data-i18n="inspect_surface">有无异物</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="shaft">电机轴</td><td data-i18n="inspect_shaft">有无异常磨损</td><td>□OK □NG</td></tr>
+</table>
+
+<h3 id="install" data-i18n="install_title">5. 新BE20B安装</h3>
+
+<p data-i18n="install_text">
+安装前必须确认新刹车型号与原电机配置匹配。
+</p>
+
+<div class="warning">
+<strong data-i18n="do_not_only">不要只看“BE20B”三个字。</strong>
+<br><br>
+<span data-i18n="verify_items">应同时核对：</span>
+<ul>
+<li data-i18n="verify1">电机型号。</li>
+<li data-i18n="verify2">刹车型号。</li>
+<li data-i18n="verify3">刹车线圈额定电压。</li>
+<li data-i18n="verify4">制动转矩。</li>
+<li data-i18n="verify5">安装尺寸。</li>
+<li data-i18n="verify6">SEW对应技术资料。</li>
+</ul>
+</div>
+
+<h4 data-i18n="install_flow_title">安装基本流程</h4>
+
+<div class="flow">
+<div class="flow-item" data-i18n="clean_surface">清洁安装面</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="install_be20b">安装BE20B</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="fix_bolts">固定螺栓</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="connect_coil">连接线圈</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="adjust_gap">调整间隙</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="measure_confirm">测量确认</div>
+</div>
+
+<h3 id="adjust" data-i18n="adjust_title">6. BE20B刹车间隙调整</h3>
+
+<p data-i18n="adjust_text">
+刹车工作间隙必须按照对应SEW电机及BE20B制动器技术资料规定值进行调整。
+</p>
+
+<div class="warning">
+<strong data-i18n="no_fixed_gap">本培训资料不建议给所有BE20B统一规定一个固定间隙数值。</strong>
+<br><br>
+<span data-i18n="gap_reason">
+原因是实际制动器配置、版本和电机组合不同。现场必须以对应设备的SEW技术文件、
+制动器铭牌以及维修规范为准。
+</span>
+</div>
+
+<h4 data-i18n="feeler_method">塞尺测量方法</h4>
+
+<div class="step"><div class="step-num">1</div><div class="step-content" data-i18n="measure1">确认电机及刹车处于安全、无电状态。</div></div>
+<div class="step"><div class="step-num">2</div><div class="step-content" data-i18n="measure2">找到刹车工作间隙测量位置。</div></div>
+<div class="step"><div class="step-num">3</div><div class="step-content" data-i18n="measure3">使用塞尺测量实际间隙。</div></div>
+<div class="step"><div class="step-num">4</div><div class="step-content" data-i18n="measure4">在不同位置进行检查，确认间隙均匀。</div></div>
+<div class="step"><div class="step-num">5</div><div class="step-content" data-i18n="measure5">根据对应SEW技术资料调整到规定值。</div></div>
+<div class="step"><div class="step-num">6</div><div class="step-content" data-i18n="measure6">重新检查并记录调整后的实际值。</div></div>
+
+<div class="measure-box">
+<h4 data-i18n="gap_notes_title">间隙调整注意事项</h4>
+<ul>
+<li data-i18n="gap_note1">不能只测一个位置。</li>
+<li data-i18n="gap_note2">不能用目测代替塞尺测量。</li>
+<li data-i18n="gap_note3">不能为了让刹车“容易吸合”而随意把间隙调得过小。</li>
+<li data-i18n="gap_note4">不能超过厂家规定的最大工作间隙。</li>
+<li data-i18n="gap_note5">调整完成后必须进行通电释放和断电制动测试。</li>
+</ul>
+</div>
+
+</section>
+
+<!-- ==================== CHAPTER 5 ==================== -->
+
+<section class="section" id="test">
+
+<h2 data-i18n="chapter_test">五、维修完成后的测试</h2>
+
+<h3 id="static-test" data-i18n="static_title">1. 静态检查</h3>
+
+<table>
+<tr>
+<th data-i18n="test_item">检查项目</th>
+<th data-i18n="record">记录</th>
+<th data-i18n="result">结果</th>
+</tr>
+<tr><td data-i18n="be20b_model">BE20B型号</td><td>____________</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="rated_voltage">刹车线圈额定电压</td><td>____________ V DC</td><td>□OK □NG</td></tr>
+<tr><td>GBE1.5 AC <span data-i18n="input">输入</span></td><td>____________ V AC</td><td>□OK □NG</td></tr>
+<tr><td>GBE1.5 DC <span data-i18n="output">输出</span></td><td>____________ V DC</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="brake_gap">刹车间隙</td><td>____________ mm</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="wiring">接线</td><td>____________</td><td>□OK □NG</td></tr>
+</table>
+
+<h3 id="dynamic-test" data-i18n="dynamic_title">2. 动态测试</h3>
+
+<p data-i18n="dynamic_intro">
+完成安装后，首先进行低风险、低速测试。
+</p>
+
+<h4 data-i18n="test_sequence">测试顺序</h4>
+
+<div class="flow">
+<div class="flow-item" data-i18n="precheck">通电前检查</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="jog">点动</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="low_speed">低速运行</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="stop">停止</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="repeat_start">重复启动</div>
+<div class="arrow">→</div>
+<div class="flow-item green" data-i18n="normal_operation">正常运行</div>
+</div>
+
+<h4 data-i18n="observe">重点观察</h4>
+<ul>
+<li data-i18n="observe1">刹车是否能够及时释放。</li>
+<li data-i18n="observe2">电机启动声音是否正常。</li>
+<li data-i18n="observe3">电机启动是否平稳。</li>
+<li data-i18n="observe4">有没有明显机械摩擦声音。</li>
+<li data-i18n="observe5">变频器是否再次出现F7900。</li>
+<li data-i18n="observe6">停止时刹车是否可靠。</li>
+<li data-i18n="observe7">电机停止后是否出现异常滑移。</li>
+</ul>
+
+<h3 id="load-test" data-i18n="load_title">3. 升降负载测试</h3>
+
+<div class="warning">
+<strong data-i18n="load_warning_title">负载测试必须按照现场安全规定执行。</strong>
+<br><br>
+<span data-i18n="load_warning">
+建议先进行空载或低风险测试，确认刹车动作、电机运行及变频器状态正常以后，
+再逐步进行实际工作负载测试。
+</span>
+</div>
+
+<table>
+<tr>
+<th data-i18n="test_project">测试项目</th>
+<th data-i18n="normal_standard">正常标准</th>
+<th data-i18n="result">结果</th>
+</tr>
+<tr><td data-i18n="up">上升</td><td data-i18n="up_standard">启动平稳，无异常报警</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="down">下降</td><td data-i18n="down_standard">运行稳定，无异常报警</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="stop_test">停止</td><td data-i18n="stop_standard">刹车可靠，无明显滑移</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="repeat_test">重复启动</td><td data-i18n="repeat_standard">连续测试无F7900</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="sound">声音</td><td data-i18n="sound_standard">无异常摩擦声</td><td>□OK □NG</td></tr>
+<tr><td data-i18n="temperature_test">温升</td><td data-i18n="temperature_standard">无异常发热</td><td>□OK □NG</td></tr>
+</table>
+
+</section>
+
+<!-- ==================== CHAPTER 6 ==================== -->
+
+<section class="section" id="troubleshooting">
+
+<h2 data-i18n="chapter_troubleshooting">六、故障排查表</h2>
+
+<table>
+<tr>
+<th data-i18n="symptom">现象</th>
+<th data-i18n="possible_reason">可能原因</th>
+<th data-i18n="check_direction">检查方向</th>
+</tr>
+
+<tr>
+<td>F7900</td>
+<td data-i18n="f7900_reason">启动异常、堵转方向故障</td>
+<td data-i18n="f7900_check">查看历史记录、电流、机械阻力、刹车</td>
+</tr>
+
+<tr>
+<td data-i18n="contactor_not">接触器不吸合</td>
+<td data-i18n="control_abnormal">控制回路异常</td>
+<td data-i18n="plc_control">PLC输出、线圈电压、控制保险</td>
+</tr>
+
+<tr>
+<td data-i18n="contactor_yes">接触器吸合但刹车不释放</td>
+<td data-i18n="rectifier_brake_fault">整流块或刹车线路异常</td>
+<td data-i18n="check_gbe">检查GBE1.5输入/输出</td>
+</tr>
+
+<tr>
+<td data-i18n="no_rectifier_output">整流块无输出</td>
+<td data-i18n="rectifier_damage">整流块损坏或输入异常</td>
+<td data-i18n="measure_ac_dc">测AC输入和DC输出</td>
+</tr>
+
+<tr>
+<td data-i18n="output_but_no_release">整流块输出正常但刹车不释放</td>
+<td data-i18n="coil_or_mechanical">线圈或机械问题</td>
+<td data-i18n="check_coil_yoke_gap">检查线圈、磁轭、间隙</td>
+</tr>
+
+<tr>
+<td data-i18n="gap_excessive">刹车间隙过大</td>
+<td data-i18n="wear_adjustment">摩擦片磨损或调整异常</td>
+<td data-i18n="feeler_adjust">塞尺测量并按照SEW资料调整</td>
+</tr>
+
+<tr>
+<td data-i18n="incomplete_release">刹车释放不完全</td>
+<td data-i18n="gap_contamination">间隙、污染、机械卡涩</td>
+<td data-i18n="inspect_brake">检查刹车机构</td>
+</tr>
+
+<tr>
+<td data-i18n="humming">电机启动有嗡嗡声但不转</td>
+<td data-i18n="humming_reason">刹车没有完全释放或机械堵转</td>
+<td data-i18n="humming_check">检查BE20B、减速机、负载</td>
+</tr>
+
+<tr>
+<td data-i18n="brake_heat">运行后刹车发热</td>
+<td data-i18n="heat_reason">刹车持续摩擦</td>
+<td data-i18n="heat_check">检查释放状态和工作间隙</td>
+</tr>
+
+<tr>
+<td data-i18n="still_fault">维修后仍F7900</td>
+<td data-i18n="not_resolved">故障原因未完全排除</td>
+<td data-i18n="repeat_diagnosis">重新查看历史、运行数据和机械系统</td>
+</tr>
+</table>
+
+<h3 data-i18n="diagnosis_tree_title">故障诊断树</h3>
+
+<div class="flow">
+<div class="flow-item red">F7900</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="tree_command">是否有运行命令？</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="tree_contactor">接触器是否动作？</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="tree_input">GBE1.5是否有输入？</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="tree_output">GBE1.5是否有输出？</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="tree_brake">刹车是否释放？</div>
+<div class="arrow">→</div>
+<div class="flow-item orange" data-i18n="tree_gap">间隙是否正常？</div>
+<div class="arrow">→</div>
+<div class="flow-item green" data-i18n="tree_normal">电机正常运行</div>
+</div>
+
+<h3 data-i18n="quick_rule_title">快速判断口诀</h3>
+
+<div class="success">
+<strong data-i18n="quick_rule">
+先看故障 → 再看历史 → 再看命令 → 再看接触器 → 再看整流 → 再看刹车 → 最后看机械。
+</strong>
+</div>
+
+</section>
+
+<!-- ==================== CHAPTER 7 ==================== -->
+
+<section class="section" id="checklist">
+
+<h2 data-i18n="chapter_checklist">七、BE20B维修检查清单</h2>
+
+<table>
+<tr>
+<th data-i18n="number">序号</th>
+<th data-i18n="check_content">检查内容</th>
+<th data-i18n="complete">完成</th>
+<th data-i18n="remark">备注</th>
+</tr>
+
+<tr><td>1</td><td data-i18n="c1">记录变频器型号</td><td>□</td><td></td></tr>
+<tr><td>2</td><td data-i18n="c2">记录当前故障代码F7900</td><td>□</td><td></td></tr>
+<tr><td>3</td><td data-i18n="c3">通过BOP-2进入Diagnostics</td><td>□</td><td></td></tr>
+<tr><td>4</td><td data-i18n="c4">进入Faults查看当前故障</td><td>□</td><td></td></tr>
+<tr><td>5</td><td data-i18n="c5">查看Fault History</td><td>□</td><td></td></tr>
+<tr><td>6</td><td data-i18n="c6">记录历史故障顺序</td><td>□</td><td></td></tr>
+<tr><td>7</td><td data-i18n="c7">检查运行命令</td><td>□</td><td></td></tr>
+<tr><td>8</td><td data-i18n="c8">检查升降接触器</td><td>□</td><td></td></tr>
+<tr><td>9</td><td data-i18n="c9">检查GBE1.5 AC输入</td><td>□</td><td>______V</td></tr>
+<tr><td>10</td><td data-i18n="c10">检查GBE1.5 DC输出</td><td>□</td><td>______V</td></tr>
+<tr><td>11</td><td data-i18n="c11">检查刹车线圈</td><td>□</td><td></td></tr>
+<tr><td>12</td><td data-i18n="c12">检查BE20B机械结构</td><td>□</td><td></td></tr>
+<tr><td>13</td><td data-i18n="c13">检查刹车摩擦片</td><td>□</td><td></td></tr>
+<tr><td>14</td><td data-i18n="c14">检查刹车工作间隙</td><td>□</td><td>______mm</td></tr>
+<tr><td>15</td><td data-i18n="c15">完成刹车更换</td><td>□</td><td></td></tr>
+<tr><td>16</td><td data-i18n="c16">完成间隙调整</td><td>□</td><td></td></tr>
+<tr><td>17</td><td data-i18n="c17">完成静态测试</td><td>□</td><td></td></tr>
+<tr><td>18</td><td data-i18n="c18">完成空载测试</td><td>□</td><td></td></tr>
+<tr><td>19</td><td data-i18n="c19">完成升降测试</td><td>□</td><td></td></tr>
+<tr><td>20</td><td data-i18n="c20">复查F7900故障是否再次出现</td><td>□</td><td></td></tr>
+
+</table>
+</section>
+
+<!-- ==================== CHAPTER 8 ==================== -->
+
+<section class="section" id="summary">
+
+<h2 data-i18n="chapter_summary">八、培训总结</h2>
+
+<div class="success">
+
+<h3 data-i18n="final_conclusion">本案例最终结论</h3>
+
+<p data-i18n="conclusion1">
+本次堆垛机升降故障表现为：变频器F7900报警。
+</p>
+
+<p data-i18n="conclusion2">经过逐级检查：</p>
+
+<div class="flow">
+<div class="flow-item red">F7900</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="judgement_stall">判断堵转</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="check_contactor">检查接触器</div>
+<div class="arrow">→</div>
+<div class="flow-item">GBE1.5</div>
+<div class="arrow">→</div>
+<div class="flow-item" data-i18n="check_brake">检查刹车</div>
+<div class="arrow">→</div>
+<div class="flow-item orange" data-i18n="find_large_gap">发现间隙过大</div>
+<div class="arrow">→</div>
+<div class="flow-item green" data-i18n="root_cause">确认根本原因</div>
+</div>
+
+<p data-i18n="final_conclusion_text">
+BE20B刹车工作间隙过大，造成电磁铁无法可靠吸合，刹车不能完全释放，
+电机启动时受到机械制动力，最终造成启动异常并触发变频器故障。
+</p>
+
+</div>
+
+<h3 data-i18n="three_core">维修人员必须掌握的三个核心能力</h3>
+
+<div class="diagnosis-card">
+<div class="diagnosis-title" data-i18n="core1_title">第一：会看变频器故障历史</div>
+<div class="diagnosis-body">
+<p data-i18n="core1_text">
+熟练掌握：BOP-2 → Diagnostics → Faults → History
+</p>
+<p data-i18n="core1_more">
+不能只看当前故障，要分析历史故障发生的先后顺序。
+</p>
+</div>
+</div>
+
+<div class="diagnosis-card">
+<div class="diagnosis-title" data-i18n="core2_title">第二：会进行电气逐级检查</div>
+<div class="diagnosis-body">
+<p data-i18n="core2_intro">能够区分：</p>
+<ul>
+<li data-i18n="core2_1">变频器问题。</li>
+<li data-i18n="core2_2">控制命令问题。</li>
+<li data-i18n="core2_3">接触器问题。</li>
+<li data-i18n="core2_4">整流块GBE1.5问题。</li>
+<li data-i18n="core2_5">刹车线圈问题。</li>
+<li data-i18n="core2_6">电气接线问题。</li>
+</ul>
+</div>
+</div>
+
+<div class="diagnosis-card">
+<div class="diagnosis-title" data-i18n="core3_title">第三：会进行机械故障判断</div>
+<div class="diagnosis-body">
+<p data-i18n="core3_intro">刹车系统不能只检查“有没有电”。</p>
+<p data-i18n="core3_text">即使刹车线圈供电正常，如果：</p>
+<ul>
+<li data-i18n="core3_1">工作间隙过大。</li>
+<li data-i18n="core3_2">摩擦片严重磨损。</li>
+<li data-i18n="core3_3">磁轭运动受阻。</li>
+<li data-i18n="core3_4">刹车机构污染。</li>
+<li data-i18n="core3_5">机械部件卡涩。</li>
+</ul>
+<p data-i18n="core3_end">同样可能导致刹车无法正常释放。</p>
+</div>
+</div>
+
+<h3 data-i18n="final_method_title">最终维修思路</h3>
+
+<div class="code" data-i18n="final_method">
+看到F7900
+    ↓
+不要马上换变频器
+    ↓
+读取当前故障
+    ↓
+查看BOP-2历史记录
+    ↓
+确认故障发生时的设备动作
+    ↓
+确认运行命令
+    ↓
+检查升降接触器
+    ↓
+检查GBE1.5输入
+    ↓
+检查GBE1.5输出
+    ↓
+检查刹车线圈
+    ↓
+检查BE20B机械机构
+    ↓
+测量刹车间隙
+    ↓
+确认间隙是否超出规定范围
+    ↓
+调整或更换BE20B
+    ↓
+静态测试
+    ↓
+低速测试
+    ↓
+升降测试
+    ↓
+重新查看故障历史
+    ↓
+确认F7900不再出现
+    ↓
+维修完成
+</div>
+
+<div class="success">
+
+<h3 data-i18n="training_standard">培训结束标准</h3>
+
+<p data-i18n="training_standard_intro">
+维修人员完成本培训后，应能够独立完成以下工作：
+</p>
+
+<ul>
+<li data-i18n="skill1">读取SINAMICS变频器故障。</li>
+<li data-i18n="skill2">使用BOP-2查看当前故障。</li>
+<li data-i18n="skill3">使用BOP-2查看Fault History。</li>
+<li data-i18n="skill4">根据故障历史建立故障链。</li>
+<li data-i18n="skill5">检查升降接触器。</li>
+<li data-i18n="skill6">测量GBE1.5输入及输出。</li>
+<li data-i18n="skill7">判断刹车供电是否正常。</li>
+<li data-i18n="skill8">识别BE20B刹车机械故障。</li>
+<li data-i18n="skill9">使用塞尺检查刹车间隙。</li>
+<li data-i18n="skill10">完成BE20B更换。</li>
+<li data-i18n="skill11">按照对应SEW技术资料完成间隙调整。</li>
+<li data-i18n="skill12">完成维修后的静态、动态及升降测试。</li>
+</ul>
+
+</div>
+
+</section>
+
+<div class="footer">
+<span data-i18n="footer1">
+SEW电机 BE20B 刹车更换与堆垛机升降故障诊断培训资料
+</span>
+<br>
+<span data-i18n="footer2">
+本资料用于设备维修培训，实际维修参数应以设备铭牌、
+SEW对应型号技术文件及现场安全规范为准。
+</span>
+</div>
+
+</div>
+</main>
+
+<a href="#" class="top-btn" title="Top">↑</a>
+
+<script>
+
+/* ==========================================================
+   THREE-LANGUAGE TRANSLATION DATABASE
+========================================================== */
+
+const translations = {
+
+zh: {
+
+side_title:"SEW BE20B<br>刹车更换培训",
+side_subtitle:"堆垛机升降系统故障诊断与维修",
+
+nav_case:"一、案例分析",
+nav_case_overview:"1. 故障现象",
+nav_fault_code:"2. F7900故障代码",
+nav_history:"3. BOP-2 历史记录",
+nav_history_detail:"4. 历史记录详细查询",
+nav_diagnosis:"5. 完整诊断过程",
+
+nav_rectifier:"二、整流块GBE1.5",
+nav_rectifier_principle:"1. 整流块作用",
+nav_rectifier_input:"2. 输入电压测量",
+nav_rectifier_output:"3. 输出电压测量",
+nav_rectifier_judgement:"4. 正常值判断",
+nav_rectifier_fault:"5. 整流块故障判断",
+
+nav_brake:"三、BE20B刹车结构",
+nav_brake_principle:"1. 工作原理",
+nav_brake_components:"2. 主要组成",
+nav_brake_gap:"3. 刹车间隙",
+nav_gap_fault:"4. 间隙过大的影响",
+
+nav_replacement:"四、BE20B刹车更换",
+nav_tools:"1. 工具准备",
+nav_safety:"2. 安全措施",
+nav_remove:"3. 拆卸步骤",
+nav_inspect:"4. 零件检查",
+nav_install:"5. 安装步骤",
+nav_adjust:"6. 间隙调整",
+
+nav_test:"五、维修后测试",
+nav_static:"1. 静态测试",
+nav_dynamic:"2. 动态测试",
+nav_load:"3. 负载测试",
+nav_troubleshooting:"六、故障排查",
+nav_checklist:"七、维修检查清单",
+nav_summary:"八、培训总结",
+
+badge_stacker:"堆垛机",
+badge_lift:"升降系统",
+title:"SEW电机 BE20B 刹车更换详细培训资料",
+subtitle:"堆垛机升降系统变频器故障诊断、整流块检测、BE20B电磁刹车检查与更换培训",
+case_summary:"典型案例：变频器F7900报警 → 判断堵转 → 检查接触器 → 检查GBE1.5整流块 → 检查刹车 → 确认刹车间隙过大 → 刹车无法可靠释放",
+
+chapter_case:"一、案例分析：堆垛机升降变频器故障",
+case_background_label:"案例背景：",
+case_background:"90度一线11号立库堆垛机在执行升降动作时，升降机构无法正常启动。维修人员首先从变频器报警入手，通过查看故障历史、检查接触器、检查整流块以及检查SEW电机BE20B刹车，最终确认机械刹车间隙过大，导致刹车无法可靠释放，电机启动受到机械制动，从而产生堵转类故障。",
+case_symptom_title:"1. 故障现象",
+case_symptom_text:"设备正常待机时没有明显异常。当堆垛机执行上升或者下降动作时，升降电机无法正常启动，变频器出现故障报警。",
+th_item:"项目",
+th_site:"现场情况",
+equipment:"设备",
+equipment_v:"自动化立体仓库堆垛机",
+mechanism:"机构",
+mechanism_v:"堆垛机升降机构",
+motor:"电机",
+motor_v:"SEW三相异步电机",
+brake:"刹车",
+inverter:"变频器",
+fault_code:"故障代码",
+site_symptom:"现场表现",
+site_symptom_v:"发出升降启动命令后，电机不能正常建立旋转",
+initial_judgement:"初步判断",
+initial_judgement_v:"电机堵转/启动异常",
+final_reason:"最终原因",
+final_reason_v:"BE20B刹车间隙过大，刹车无法可靠释放",
+
+fault_title:"2. 变频器故障代码F7900",
+important_note:"重要说明：",
+fault_note:"F7900的具体定义应以现场实际SINAMICS变频器型号、固件版本以及厂家诊断信息为准。本培训案例按照现场记录的F7900作为故障诊断起点，重点训练维修人员如何从“变频器报警”继续向下查找真正原因，而不是看到故障代码就直接更换变频器。",
+diagnosis_chain:`现场故障记录：
+
+变频器：SINAMICS
+故障代码：F7900
+设备：堆垛机升降
+故障现象：启动后电机无法正常运行
+初步判断：堵转 / 启动异常
+
+诊断方向：
+
+变频器
+   ↓
+启动命令
+   ↓
+接触器
+   ↓
+整流块 GBE1.5
+   ↓
+刹车线圈
+   ↓
+BE20B机械机构
+   ↓
+刹车间隙
+   ↓
+电机是否能够自由旋转`,
+
+history_title:"3. BOP-2 查看故障历史",
+history_text:"维修人员在处理故障时，不能只查看变频器当前显示的故障。尤其是堆垛机这种间歇性故障，历史记录非常重要。",
+history_path_title:"3.1 BOP-2基本进入路径",
+training_requirement:"培训要求：",
+training_requirement_text:"不同SINAMICS型号及面板软件版本的菜单名称可能略有差异。现场应以实际面板显示为准。核心原则是：",
+history_detail_title:"4. 故障历史详细查询方法",
+history_step1_title:"第一步：不要立即复位",
+history_step1_text:"设备发生F7900后，维修人员第一反应不应该是直接按Reset。如果直接复位，可能丢失重要的现场状态信息。",
+record_items:"正确做法是先记录：",
+record1:"故障代码。",
+record2:"故障发生时间。",
+record3:"设备当时执行什么动作。",
+record4:"电机正在上升还是下降。",
+record5:"故障发生前有没有异常声音。",
+record6:"刹车是否动作。",
+record7:"是否伴随其他故障。",
+diag_menu:"进入诊断菜单",
+diag_menu_text:"在BOP-2主界面找到Diagnostics。",
+fault_menu:"进入Faults",
+fault_menu_text:"选择Diagnostics → Faults，并确认当前是否存在活动故障。",
+history_menu:"查看历史故障",
+history_menu_text:"在Faults相关菜单中查找History、Fault History或者历史故障记录。",
+time_analysis:"按照时间顺序分析",
+time_analysis_text:"按照时间顺序查看故障，并判断故障链的发展过程。",
+example_history:"例如历史记录显示：",
+history_example:`最近一次：
+F7900
+
+之前：
+F7900
+
+更早：
+过流 / 过载相关故障
+
+更早：
+无故障`,
+history_logic:"这时候不能简单地认为变频器本身损坏。应该进一步考虑机械阻力增加、电机启动困难、电流增加以及变频器检测异常之间的关系。",
+mechanical_resistance:"机械阻力增加",
+motor_start:"电机启动困难",
+current_increase:"电流增加",
+inverter_detection:"变频器检测异常",
+history_question_title:"维修诊断思维",
+diagnosis_thinking:"不要只问：“F7900是什么？”",
+ask_more:"更应该问：",
+question1:"F7900之前有没有其他故障？",
+question2:"故障发生的时候电机有没有收到运行命令？",
+question3:"刹车有没有释放？",
+question4:"接触器有没有吸合？",
+question5:"整流块有没有输出？",
+question6:"电机有没有产生明显的启动声音？",
+question7:"电机轴是否受到机械制动力？",
+complete_diagnosis:"5. 完整故障诊断过程",
+view_history:"查看历史",
+confirm_command:"确认启动命令",
+check_contactor:"检查接触器",
+check_brake:"检查刹车",
+check_gap:"检查间隙",
+confirm_fault:"确认故障",
+stage1:"第一阶段：检查变频器",
+stage1_text:"确认变频器有无运行命令、频率给定是否正常，并查看故障历史。",
+stage2:"第二阶段：检查接触器",
+stage2_text:"检查接触器线圈控制电压、触点状态以及机械动作。",
+stage3:"第三阶段：检查整流块",
+stage3_text:"确认GBE1.5输入电压正常，并确认输出能够建立。",
+stage4:"第四阶段：检查BE20B",
+stage4_text:"如果电气供电正常，但是刹车仍然无法释放，就必须检查线圈、磁轭、摩擦片以及工作间隙。",
+stage5:"第五阶段：确认机械原因",
+gap_too_large:"刹车间隙过大",
+gap_effect:"导致电磁铁吸合行程不足，刹车无法可靠释放，电机启动受到机械制动，最终造成变频器报警。",
+
+chapter_rectifier:"二、SEW刹车整流块 GBE1.5 检查",
+rectifier_function_title:"1. 整流块的作用",
+rectifier_function:"SEW电机制动器通常需要通过整流装置将交流供电转换为适合刹车线圈工作的直流电压。",
+ac_input:"交流输入",
+dc_output:"直流输出",
+brake_coil:"刹车线圈",
+brake_release:"刹车释放",
+rectifier_input_title:"2. 测量GBE1.5输入电压",
+rectifier_input:"首先确认实际现场接线。不要仅凭整流块型号判断输入电压。万用表设置为交流电压档ACV，按照现场电路图及整流块端子定义测量输入端。",
+rectifier_output_title:"3. 测量GBE1.5直流输出",
+rectifier_output:"测量整流块输出时，万用表切换到直流电压DCV。",
+danger_electric:"注意：",
+danger_electric_text:"整流块输出侧可能存在危险直流电压。必须由具备电气维修资质的人员进行测量。万用表及表笔必须满足现场电压等级和安全等级要求。",
+rectifier_judgement_title:"4. GBE1.5正常值如何判断",
+important:"非常重要：",
+rectifier_warning:"不能简单地规定“GBE1.5一定必须输出某一个固定电压”。实际设备的刹车供电电压、整流方式、接线方式以及制动器配置需要结合具体SEW电机和刹车线圈铭牌确认。",
+correct_method:"正确的判断方法是：",
+check_rating1:"确认电机铭牌及刹车铭牌。",
+check_rating2:"确认整流块实际接线方式。",
+check_rating3:"确认整流块输入交流电压。",
+check_rating4:"确认整流块输出直流电压。",
+check_rating5:"将测量结果与实际刹车线圈额定电压和厂家允许范围进行比较。",
+record_format:"推荐现场记录格式",
+item:"项目",
+rated:"设计/额定",
+measured:"现场实测",
+judgement:"判断",
+coil_voltage:"刹车线圈",
+release_test:"启动释放",
+should_release:"应可靠释放",
+rectifier_fault_title:"5. 整流块故障判断",
+symptom:"现象",
+possible_reason:"可能原因",
+check_direction:"检查方向",
+no_input:"输入无电压",
+control_fault:"控制线路问题",
+contactor_fuse:"接触器、保险、控制回路",
+input_ok_output_no:"输入正常、输出无电压",
+rectifier_fault:"整流块异常或线路异常",
+wiring:"接线",
+terminal:"端子",
+output_abnormal:"输出电压异常",
+rectifier_supply_fault:"整流块、供电方式或负载异常",
+verify_wiring:"核对线路及规格",
+output_ok_brake_no:"输出正常但刹车不释放",
+coil_mechanical:"刹车线圈或机械机构异常",
+coil_magnet_gap:"线圈、磁铁、间隙",
+intermittent:"刹车偶发释放",
+contact_gap:"接触不良或机械间隙问题",
+terminal_coil_gap:"端子、线圈、间隙",
+
+chapter_brake:"三、SEW BE20B刹车结构与工作原理",
+brake_principle_title:"1. BE20B工作原理",
+brake_principle:"BE20B属于电磁弹簧制动器。它的基本特点是：断电制动、通电释放。",
+stop_state:"电机停止状态",
+coil_off:"刹车线圈断电",
+magnetic_force_off:"电磁力消失",
+spring_force:"弹簧产生压力",
+friction_brake:"摩擦片制动",
+start_state:"电机启动状态",
+run_command:"运行命令",
+coil_on:"刹车线圈通电",
+magnet_pull:"电磁铁吸合",
+release:"刹车释放",
+motor_run:"电机运行",
+components_title:"2. BE20B主要组成",
+component:"部件",
+function:"作用",
+inspection:"常见检查项目",
+brake_coil_component:"制动线圈",
+coil_function:"产生电磁力",
+coil_inspection:"供电、电阻、绝缘",
+magnet_yoke:"磁轭/电磁铁",
+magnet_function:"吸合释放机构",
+magnet_inspection:"动作、磨损、污染",
+friction_disc:"摩擦片",
+friction_function:"产生制动力矩",
+friction_inspection:"磨损、烧蚀、污染",
+spring:"弹簧",
+spring_function:"提供制动力",
+spring_inspection:"损伤、疲劳",
+adjustment:"调整机构",
+adjust_function:"调整工作间隙",
+adjust_inspection:"间隙是否符合要求",
+bolts:"安装螺栓",
+bolt_function:"固定刹车组件",
+bolt_inspection:"松动、扭矩",
+gap_title:"3. 刹车工作间隙",
+gap_text:"刹车工作间隙是BE20B维修过程中非常重要的参数。",
+gap_small:"如果间隙过小，可能导致摩擦片不能完全分离，造成运行过程中持续摩擦。",
+gap_large:"如果间隙过大，则可能导致电磁铁吸合行程不足，刹车不能可靠释放。",
+gap_small_label:"间隙过小",
+running_friction:"运行摩擦",
+temperature:"温升",
+gap_large_label:"间隙过大",
+insufficient_pull:"吸合不足",
+incomplete_release:"刹车释放不完全",
+motor_difficult:"电机启动困难",
+gap_fault_title:"4. 本案例中刹车间隙过大的影响",
+final_fault_chain:"最终故障链：",
+chain1:"BE20B刹车间隙过大",
+chain2:"电磁铁吸合行程不足",
+chain3:"刹车无法完全释放",
+chain4:"电机启动受到机械阻力",
+chain5:"电机不能正常建立旋转",
+chain6:"变频器检测到异常",
+not_inverter:"因此，本案例不能简单归类为“变频器坏了”。真正需要解决的是造成电机启动困难的根本原因。",
+
+chapter_replacement:"四、SEW BE20B刹车更换作业",
+tools_title:"1. 工具准备",
+tool1:"数字万用表。",
+tool2:"符合现场电压等级要求的电气测试工具。",
+tool3:"内六角扳手。",
+tool4:"套筒/梅花扳手。",
+tool5:"扭矩扳手。",
+tool6:"塞尺。",
+tool7:"清洁布。",
+tool8:"必要的清洁剂。",
+tool9:"个人防护用品。",
+tool10:"必要的机械防坠工具。",
+safety_title:"2. 安全措施",
+high_risk:"堆垛机升降机构属于高风险机械机构。",
+safety_before:"在进行刹车拆卸之前，必须确保：",
+safe1:"设备停止。",
+safe2:"切断主电源。",
+safe3:"执行LOTO上锁挂牌Lockout/Tagout。",
+safe4:"确认电气系统无意外启动条件。",
+safe5:"升降载荷已经得到可靠机械支撑。",
+safe6:"防止货叉、载荷或升降平台突然下落。",
+safe7:"确认电机及刹车不会突然动作。",
+remove_title:"3. BE20B拆卸步骤",
+remove1_title:"记录原始状态",
+remove1_text:"拆卸之前，对电机、刹车、接线、整流块进行拍照。记录电缆编号和端子位置。",
+remove2_title:"执行能源隔离",
+remove2_text:"切断设备电源，执行LOTO。使用合适仪器确认无电。",
+remove3_title:"拆除刹车电气连接",
+remove3_text:"拆除刹车线圈相关接线。必须做好线号和端子记录。",
+remove4_title:"拆除固定部件",
+remove4_text:"按照SEW对应电机和BE20B制动器结构拆除固定螺栓。",
+remove5_title:"取下刹车组件",
+remove5_text:"拆卸过程中注意不要损伤电机轴、摩擦面以及电气连接部分。",
+inspect_title:"4. 拆下后检查",
+inspect_component:"检查部件",
+inspect_content:"检查内容",
+result:"结果",
+inspect_friction:"磨损、烧蚀、污染",
+coil:"线圈",
+inspect_coil:"外观、接线、绝缘",
+yoke:"磁轭",
+inspect_yoke:"吸合面是否异常",
+inspect_spring:"有无损坏",
+mounting_surface:"安装面",
+inspect_surface:"有无异物",
+shaft:"电机轴",
+inspect_shaft:"有无异常磨损",
+install_title:"5. 新BE20B安装",
+install_text:"安装前必须确认新刹车型号与原电机配置匹配。",
+do_not_only:"不要只看“BE20B”三个字。",
+verify_items:"应同时核对：",
+verify1:"电机型号。",
+verify2:"刹车型号。",
+verify3:"刹车线圈额定电压。",
+verify4:"制动转矩。",
+verify5:"安装尺寸。",
+verify6:"SEW对应技术资料。",
+install_flow_title:"安装基本流程",
+clean_surface:"清洁安装面",
+install_be20b:"安装BE20B",
+fix_bolts:"固定螺栓",
+connect_coil:"连接线圈",
+adjust_gap:"调整间隙",
+measure_confirm:"测量确认",
+adjust_title:"6. BE20B刹车间隙调整",
+adjust_text:"刹车工作间隙必须按照对应SEW电机及BE20B制动器技术资料规定值进行调整。",
+no_fixed_gap:"本培训资料不建议给所有BE20B统一规定一个固定间隙数值。",
+gap_reason:"原因是实际制动器配置、版本和电机组合不同。现场必须以对应设备的SEW技术文件、制动器铭牌以及维修规范为准。",
+feeler_method:"塞尺测量方法",
+measure1:"确认电机及刹车处于安全、无电状态。",
+measure2:"找到刹车工作间隙测量位置。",
+measure3:"使用塞尺测量实际间隙。",
+measure4:"在不同位置进行检查，确认间隙均匀。",
+measure5:"根据对应SEW技术资料调整到规定值。",
+measure6:"重新检查并记录调整后的实际值。",
+gap_notes_title:"间隙调整注意事项",
+gap_note1:"不能只测一个位置。",
+gap_note2:"不能用目测代替塞尺测量。",
+gap_note3:"不能为了让刹车“容易吸合”而随意把间隙调得过小。",
+gap_note4:"不能超过厂家规定的最大工作间隙。",
+gap_note5:"调整完成后必须进行通电释放和断电制动测试。",
+
+chapter_test:"五、维修完成后的测试",
+static_title:"1. 静态检查",
+test_item:"检查项目",
+record:"记录",
+be20b_model:"BE20B型号",
+rated_voltage:"刹车线圈额定电压",
+input:"输入",
+output:"输出",
+brake_gap:"刹车间隙",
+dynamic_title:"2. 动态测试",
+dynamic_intro:"完成安装后，首先进行低风险、低速测试。",
+test_sequence:"测试顺序",
+precheck:"通电前检查",
+jog:"点动",
+low_speed:"低速运行",
+stop:"停止",
+repeat_start:"重复启动",
+normal_operation:"正常运行",
+observe:"重点观察",
+observe1:"刹车是否能够及时释放。",
+observe2:"电机启动声音是否正常。",
+observe3:"电机启动是否平稳。",
+observe4:"有没有明显机械摩擦声音。",
+observe5:"变频器是否再次出现F7900。",
+observe6:"停止时刹车是否可靠。",
+observe7:"电机停止后是否出现异常滑移。",
+load_title:"3. 升降负载测试",
+load_warning_title:"负载测试必须按照现场安全规定执行。",
+load_warning:"建议先进行空载或低风险测试，确认刹车动作、电机运行及变频器状态正常以后，再逐步进行实际工作负载测试。",
+test_project:"测试项目",
+normal_standard:"正常标准",
+up:"上升",
+up_standard:"启动平稳，无异常报警",
+down:"下降",
+down_standard:"运行稳定，无异常报警",
+stop_test:"停止",
+stop_standard:"刹车可靠，无明显滑移",
+repeat_test:"重复启动",
+repeat_standard:"连续测试无F7900",
+sound:"声音",
+sound_standard:"无异常摩擦声",
+temperature_test:"温升",
+temperature_standard:"无异常发热",
+
+chapter_troubleshooting:"六、故障排查表",
+f7900_reason:"启动异常、堵转方向故障",
+f7900_check:"查看历史记录、电流、机械阻力、刹车",
+contactor_not:"接触器不吸合",
+control_abnormal:"控制回路异常",
+plc_control:"PLC输出、线圈电压、控制保险",
+contactor_yes:"接触器吸合但刹车不释放",
+rectifier_brake_fault:"整流块或刹车线路异常",
+check_gbe:"检查GBE1.5输入/输出",
+no_rectifier_output:"整流块无输出",
+rectifier_damage:"整流块损坏或输入异常",
+measure_ac_dc:"测AC输入和DC输出",
+output_but_no_release:"整流块输出正常但刹车不释放",
+coil_or_mechanical:"线圈或机械问题",
+check_coil_yoke_gap:"检查线圈、磁轭、间隙",
+gap_excessive:"刹车间隙过大",
+wear_adjustment:"摩擦片磨损或调整异常",
+feeler_adjust:"塞尺测量并按照SEW资料调整",
+gap_contamination:"间隙、污染、机械卡涩",
+inspect_brake:"检查刹车机构",
+humming:"电机启动有嗡嗡声但不转",
+humming_reason:"刹车没有完全释放或机械堵转",
+humming_check:"检查BE20B、减速机、负载",
+brake_heat:"运行后刹车发热",
+heat_reason:"刹车持续摩擦",
+heat_check:"检查释放状态和工作间隙",
+still_fault:"维修后仍F7900",
+not_resolved:"故障原因未完全排除",
+repeat_diagnosis:"重新查看历史、运行数据和机械系统",
+diagnosis_tree_title:"故障诊断树",
+tree_command:"是否有运行命令？",
+tree_contactor:"接触器是否动作？",
+tree_input:"GBE1.5是否有输入？",
+tree_output:"GBE1.5是否有输出？",
+tree_brake:"刹车是否释放？",
+tree_gap:"间隙是否正常？",
+tree_normal:"电机正常运行",
+quick_rule_title:"快速判断口诀",
+quick_rule:"先看故障 → 再看历史 → 再看命令 → 再看接触器 → 再看整流 → 再看刹车 → 最后看机械。",
+
+chapter_checklist:"七、BE20B维修检查清单",
+number:"序号",
+check_content:"检查内容",
+complete:"完成",
+remark:"备注",
+c1:"记录变频器型号",
+c2:"记录当前故障代码F7900",
+c3:"通过BOP-2进入Diagnostics",
+c4:"进入Faults查看当前故障",
+c5:"查看Fault History",
+c6:"记录历史故障顺序",
+c7:"检查运行命令",
+c8:"检查升降接触器",
+c9:"检查GBE1.5 AC输入",
+c10:"检查GBE1.5 DC输出",
+c11:"检查刹车线圈",
+c12:"检查BE20B机械结构",
+c13:"检查刹车摩擦片",
+c14:"检查刹车工作间隙",
+c15:"完成刹车更换",
+c16:"完成间隙调整",
+c17:"完成静态测试",
+c18:"完成空载测试",
+c19:"完成升降测试",
+c20:"复查F7900故障是否再次出现",
+
+chapter_summary:"八、培训总结",
+final_conclusion:"本案例最终结论",
+conclusion1:"本次堆垛机升降故障表现为：变频器F7900报警。",
+conclusion2:"经过逐级检查：",
+judgement_stall:"判断堵转",
+find_large_gap:"发现间隙过大",
+root_cause:"确认根本原因",
+final_conclusion_text:"BE20B刹车工作间隙过大，造成电磁铁无法可靠吸合，刹车不能完全释放，电机启动时受到机械制动力，最终造成启动异常并触发变频器故障。",
+three_core:"维修人员必须掌握的三个核心能力",
+core1_title:"第一：会看变频器故障历史",
+core1_text:"熟练掌握：BOP-2 → Diagnostics → Faults → History",
+core1_more:"不能只看当前故障，要分析历史故障发生的先后顺序。",
+core2_title:"第二：会进行电气逐级检查",
+core2_intro:"能够区分：",
+core2_1:"变频器问题。",
+core2_2:"控制命令问题。",
+core2_3:"接触器问题。",
+core2_4:"整流块GBE1.5问题。",
+core2_5:"刹车线圈问题。",
+core2_6:"电气接线问题。",
+core3_title:"第三：会进行机械故障判断",
+core3_intro:"刹车系统不能只检查“有没有电”。",
+core3_text:"即使刹车线圈供电正常，如果：",
+core3_1:"工作间隙过大。",
+core3_2:"摩擦片严重磨损。",
+core3_3:"磁轭运动受阻。",
+core3_4:"刹车机构污染。",
+core3_5:"机械部件卡涩。",
+core3_end:"同样可能导致刹车无法正常释放。",
+final_method_title:"最终维修思路",
+final_method:`看到F7900
+    ↓
+不要马上换变频器
+    ↓
+读取当前故障
+    ↓
+查看BOP-2历史记录
+    ↓
+确认故障发生时的设备动作
+    ↓
+确认运行命令
+    ↓
+检查升降接触器
+    ↓
+检查GBE1.5输入
+    ↓
+检查GBE1.5输出
+    ↓
+检查刹车线圈
+    ↓
+检查BE20B机械机构
+    ↓
+测量刹车间隙
+    ↓
+确认间隙是否超出规定范围
+    ↓
+调整或更换BE20B
+    ↓
+静态测试
+    ↓
+低速测试
+    ↓
+升降测试
+    ↓
+重新查看故障历史
+    ↓
+确认F7900不再出现
+    ↓
+维修完成`,
+training_standard:"培训结束标准",
+training_standard_intro:"维修人员完成本培训后，应能够独立完成以下工作：",
+skill1:"读取SINAMICS变频器故障。",
+skill2:"使用BOP-2查看当前故障。",
+skill3:"使用BOP-2查看Fault History。",
+skill4:"根据故障历史建立故障链。",
+skill5:"检查升降接触器。",
+skill6:"测量GBE1.5输入及输出。",
+skill7:"判断刹车供电是否正常。",
+skill8:"识别BE20B刹车机械故障。",
+skill9:"使用塞尺检查刹车间隙。",
+skill10:"完成BE20B更换。",
+skill11:"按照对应SEW技术资料完成间隙调整。",
+skill12:"完成维修后的静态、动态及升降测试。",
+footer1:"SEW电机 BE20B 刹车更换与堆垛机升降故障诊断培训资料",
+footer2:"本资料用于设备维修培训，实际维修参数应以设备铭牌、SEW对应型号技术文件及现场安全规范为准。"
+},
+
+/* ==========================================================
+   ENGLISH
+========================================================== */
+
+en: {
+
+side_title:"SEW BE20B<br>Brake Replacement Training",
+side_subtitle:"Stacker Crane Lifting System Troubleshooting & Maintenance",
+
+nav_case:"1. Case Analysis",
+nav_case_overview:"1. Fault Symptoms",
+nav_fault_code:"2. F7900 Fault Code",
+nav_history:"3. BOP-2 Fault History",
+nav_history_detail:"4. Detailed Fault History",
+nav_diagnosis:"5. Complete Diagnostic Process",
+
+nav_rectifier:"2. GBE1.5 Rectifier",
+nav_rectifier_principle:"1. Rectifier Function",
+nav_rectifier_input:"2. Input Voltage Measurement",
+nav_rectifier_output:"3. Output Voltage Measurement",
+nav_rectifier_judgement:"4. Normal Value Evaluation",
+nav_rectifier_fault:"5. Rectifier Fault Diagnosis",
+
+nav_brake:"3. BE20B Brake Structure",
+nav_brake_principle:"1. Operating Principle",
+nav_brake_components:"2. Main Components",
+nav_brake_gap:"3. Brake Air Gap",
+nav_gap_fault:"4. Effect of Excessive Air Gap",
+
+nav_replacement:"4. BE20B Brake Replacement",
+nav_tools:"1. Tools Required",
+nav_safety:"2. Safety Measures",
+nav_remove:"3. Removal Procedure",
+nav_inspect:"4. Component Inspection",
+nav_install:"5. Installation Procedure",
+nav_adjust:"6. Air Gap Adjustment",
+
+nav_test:"5. Post-Repair Testing",
+nav_static:"1. Static Test",
+nav_dynamic:"2. Dynamic Test",
+nav_load:"3. Load Test",
+nav_troubleshooting:"6. Troubleshooting",
+nav_checklist:"7. Maintenance Checklist",
+nav_summary:"8. Training Summary",
+
+badge_stacker:"Stacker Crane",
+badge_lift:"Lifting System",
+title:"SEW Motor BE20B Brake Replacement – Detailed Training Material",
+subtitle:"Training on stacker crane lifting-drive troubleshooting, rectifier inspection, and BE20B electromagnetic brake inspection and replacement",
+case_summary:"Typical case: F7900 inverter alarm → suspected motor stall → contactor check → GBE1.5 rectifier check → brake check → excessive brake air gap confirmed → brake could not reliably release",
+
+chapter_case:"1. Case Analysis: Stacker Crane Lifting Drive Fault",
+case_background_label:"Case Background:",
+case_background:"A stacker crane in the No. 11 warehouse line could not start its lifting mechanism during a lifting operation. The troubleshooting started from the inverter alarm. After checking the fault history, contactors, rectifier and SEW BE20B brake, the final finding was excessive brake air gap, which prevented reliable brake release and caused mechanical resistance during motor startup.",
+case_symptom_title:"1. Fault Symptoms",
+case_symptom_text:"There was no obvious abnormality while the equipment was idle. When the stacker crane commanded an upward or downward movement, the lifting motor could not start normally and the inverter generated a fault alarm.",
+th_item:"Item",
+th_site:"Site Condition",
+equipment:"Equipment",
+equipment_v:"Automated storage/retrieval stacker crane",
+mechanism:"Mechanism",
+mechanism_v:"Stacker crane lifting mechanism",
+motor:"Motor",
+motor_v:"SEW three-phase induction motor",
+brake:"Brake",
+inverter:"Inverter",
+fault_code:"Fault Code",
+site_symptom:"Observed Condition",
+site_symptom_v:"The motor could not establish normal rotation after a lifting start command",
+initial_judgement:"Initial Judgment",
+initial_judgement_v:"Motor stall / abnormal startup",
+final_reason:"Final Cause",
+final_reason_v:"Excessive BE20B brake air gap; brake could not reliably release",
+
+fault_title:"2. Inverter Fault Code F7900",
+important_note:"Important Note:",
+fault_note:"The exact definition of F7900 must be confirmed according to the actual SINAMICS inverter model, firmware version and manufacturer diagnostic information. In this training case, F7900 is used as the starting point for troubleshooting. The objective is to teach technicians to continue tracing the real cause instead of immediately replacing the inverter.",
+diagnosis_chain:`现场故障记录 /现场故障记录：
+
+Inverter: SINAMICS
+Fault code: F7900
+Equipment: Stacker crane lifting system
+Symptom: Motor cannot run normally after startup
+Initial judgment: Stall / abnormal startup
+
+Diagnostic direction:
+
+Inverter
+   ↓
+Start command
+   ↓
+Contactor
+   ↓
+GBE1.5 rectifier
+   ↓
+Brake coil
+   ↓
+BE20B mechanical brake
+   ↓
+Brake air gap
+   ↓
+Can the motor shaft rotate freely?`,
+
+history_title:"3. Viewing Fault History with BOP-2",
+history_text:"Technicians should not look only at the current inverter fault. For intermittent stacker-crane faults, historical records are especially important.",
+history_path_title:"3.1 Basic BOP-2 Menu Path",
+training_requirement:"Training Requirement:",
+training_requirement_text:"Menu names may differ slightly between SINAMICS models and panel software versions. Always follow the actual display on site. The basic principle is:",
+history_detail_title:"4. Detailed Fault History Procedure",
+history_step1_title:"Step 1: Do Not Reset Immediately",
+history_step1_text:"After F7900 occurs, do not immediately press Reset. Resetting too early may remove important information about the actual fault condition.",
+record_items:"First record:",
+record1:"Fault code.",
+record2:"Time of fault occurrence.",
+record3:"What operation the equipment was performing.",
+record4:"Whether the motor was moving upward or downward.",
+record5:"Whether abnormal noise occurred before the fault.",
+record6:"Whether the brake operated.",
+record7:"Whether other faults occurred at the same time.",
+diag_menu:"Open Diagnostics",
+diag_menu_text:"Find Diagnostics on the BOP-2 main screen.",
+fault_menu:"Open Faults",
+fault_menu_text:"Select Diagnostics → Faults and confirm whether an active fault is present.",
+history_menu:"View Fault History",
+history_menu_text:"Find History, Fault History or the historical fault record in the Faults menu.",
+time_analysis:"Analyze by Time Sequence",
+time_analysis_text:"Review faults chronologically and determine how the fault chain developed.",
+example_history:"Example historical record:",
+history_example:`Latest:
+F7900
+
+Previous:
+F7900
+
+Earlier:
+Overcurrent / overload-related fault
+
+Earlier:
+No fault`,
+history_logic:"Do not immediately conclude that the inverter itself is defective. Consider the relationship between increased mechanical resistance, difficult motor startup, increased current and inverter fault detection.",
+mechanical_resistance:"Increased Mechanical Resistance",
+motor_start:"Difficult Motor Startup",
+current_increase:"Increased Current",
+inverter_detection:"Inverter Detects Abnormality",
+history_question_title:"Troubleshooting Mindset",
+diagnosis_thinking:"Do not only ask: “What is F7900?”",
+ask_more:"Instead ask:",
+question1:"Were there other faults before F7900?",
+question2:"Did the motor receive a run command when the fault occurred?",
+question3:"Did the brake release?",
+question4:"Did the contactor engage?",
+question5:"Was there output from the rectifier?",
+question6:"Did the motor make a normal startup sound?",
+question7:"Was the motor shaft mechanically restrained?",
+complete_diagnosis:"5. Complete Diagnostic Process",
+view_history:"View History",
+confirm_command:"Confirm Start Command",
+check_contactor:"Check Contactor",
+check_brake:"Check Brake",
+check_gap:"Check Air Gap",
+confirm_fault:"Confirm Cause",
+stage1:"Stage 1: Check the Inverter",
+stage1_text:"Confirm the run command and frequency reference, then review the fault history.",
+stage2:"Stage 2: Check the Contactor",
+stage2_text:"Check contactor coil control voltage, contact condition and mechanical operation.",
+stage3:"Stage 3: Check the Rectifier",
+stage3_text:"Confirm normal GBE1.5 AC input and establish whether DC output is present.",
+stage4:"Stage 4: Check BE20B",
+stage4_text:"If electrical supply is normal but the brake does not release, inspect the coil, yoke, friction disc and working air gap.",
+stage5:"Stage 5: Confirm the Mechanical Cause",
+gap_too_large:"Brake Air Gap Excessive",
+gap_effect:"The excessive gap prevents sufficient magnetic travel, so the brake cannot reliably release. The motor starts against mechanical braking resistance and the inverter eventually generates a fault.",
+
+chapter_rectifier:"2. SEW Brake Rectifier GBE1.5 Inspection",
+rectifier_function_title:"1. Rectifier Function",
+rectifier_function:"The SEW motor brake normally uses a rectifier to convert AC supply into the DC voltage required by the brake coil.",
+ac_input:"AC Input",
+dc_output:"DC Output",
+brake_coil:"Brake Coil",
+brake_release:"Brake Release",
+rectifier_input_title:"2. Measuring GBE1.5 Input Voltage",
+rectifier_input:"First confirm the actual field wiring. Do not determine the input voltage only from the rectifier model. Set the multimeter to AC voltage and measure the input according to the electrical drawing and terminal assignment.",
+rectifier_output_title:"3. Measuring GBE1.5 DC Output",
+rectifier_output:"Set the multimeter to DC voltage when measuring the rectifier output.",
+danger_electric:"Warning:",
+danger_electric_text:"Dangerous DC voltage may be present on the rectifier output. Measurement must be performed by qualified electrical personnel using instruments and test leads suitable for the voltage and safety category.",
+rectifier_judgement_title:"4. How to Determine a Normal GBE1.5 Value",
+important:"Very Important:",
+rectifier_warning:"Do not assume that GBE1.5 must always produce one fixed output voltage. Actual brake supply voltage, rectification method, wiring and brake configuration must be confirmed from the specific SEW motor and brake-coil nameplate.",
+correct_method:"Correct evaluation method:",
+check_rating1:"Check the motor and brake nameplates.",
+check_rating2:"Confirm the actual rectifier wiring.",
+check_rating3:"Confirm the AC input voltage.",
+check_rating4:"Confirm the DC output voltage.",
+check_rating5:"Compare the measured value with the brake-coil rated voltage and manufacturer's permitted range.",
+record_format:"Recommended Field Record",
+item:"Item",
+rated:"Rated / Design",
+measured:"Measured",
+judgement:"Judgment",
+coil_voltage:"Brake Coil",
+release_test:"Startup Release",
+should_release:"Must release reliably",
+rectifier_fault_title:"5. Rectifier Fault Diagnosis",
+symptom:"Symptom",
+possible_reason:"Possible Cause",
+check_direction:"Check",
+no_input:"No input voltage",
+control_fault:"Control circuit problem",
+contactor_fuse:"Contactor, fuse and control circuit",
+input_ok_output_no:"Input normal, no output voltage",
+rectifier_fault:"Rectifier or wiring fault",
+wiring:"Wiring",
+terminal:"Terminal",
+output_abnormal:"Abnormal output voltage",
+rectifier_supply_fault:"Rectifier, supply configuration or load problem",
+verify_wiring:"Verify wiring and specification",
+output_ok_brake_no:"Output normal but brake does not release",
+coil_mechanical:"Brake coil or mechanical fault",
+coil_magnet_gap:"Coil, magnet and air gap",
+intermittent:"Intermittent brake release",
+contact_gap:"Poor electrical contact or mechanical air-gap problem",
+terminal_coil_gap:"Terminals, coil and air gap",
+
+chapter_brake:"3. SEW BE20B Brake Structure and Operating Principle",
+brake_principle_title:"1. BE20B Operating Principle",
+brake_principle:"BE20B is an electromagnetic spring-applied brake. Its basic principle is: brake when de-energized, release when energized.",
+stop_state:"Motor Stopped",
+coil_off:"Brake Coil De-energized",
+magnetic_force_off:"Magnetic Force Lost",
+spring_force:"Spring Applies Force",
+friction_brake:"Friction Disc Brakes",
+start_state:"Motor Starting",
+run_command:"Run Command",
+coil_on:"Brake Coil Energized",
+magnet_pull:"Electromagnet Pulls In",
+release:"Brake Releases",
+motor_run:"Motor Runs",
+components_title:"2. Main BE20B Components",
+component:"Component",
+function:"Function",
+inspection:"Typical Inspection",
+brake_coil_component:"Brake Coil",
+coil_function:"Produces electromagnetic force",
+coil_inspection:"Supply, resistance, insulation",
+magnet_yoke:"Magnetic Yoke / Electromagnet",
+magnet_function:"Release mechanism",
+magnet_inspection:"Movement, wear, contamination",
+friction_disc:"Friction Disc",
+friction_function:"Produces braking torque",
+friction_inspection:"Wear, burning, contamination",
+spring:"Spring",
+spring_function:"Provides braking force",
+spring_inspection:"Damage, fatigue",
+adjustment:"Adjustment Mechanism",
+adjust_function:"Adjusts working air gap",
+adjust_inspection:"Air gap within specification",
+bolts:"Mounting Bolts",
+bolt_function:"Secures brake assembly",
+bolt_inspection:"Looseness, torque",
+gap_title:"3. Brake Working Air Gap",
+gap_text:"The brake working air gap is a critical BE20B maintenance parameter.",
+gap_small:"If the air gap is too small, the friction disc may not fully separate and continuous friction may occur during operation.",
+gap_large:"If the air gap is too large, the electromagnet may not travel far enough and the brake may fail to release reliably.",
+gap_small_label:"Air Gap Too Small",
+running_friction:"Running Friction",
+temperature:"Temperature Rise",
+gap_large_label:"Air Gap Too Large",
+insufficient_pull:"Insufficient Pull-In",
+incomplete_release:"Incomplete Brake Release",
+motor_difficult:"Difficult Motor Startup",
+gap_fault_title:"4. Effect of Excessive Brake Air Gap in This Case",
+final_fault_chain:"Final Fault Chain:",
+chain1:"BE20B brake air gap excessive",
+chain2:"Insufficient electromagnet travel",
+chain3:"Brake cannot fully release",
+chain4:"Motor starts against mechanical resistance",
+chain5:"Motor cannot establish normal rotation",
+chain6:"Inverter detects abnormality",
+not_inverter:"Therefore, this case should not simply be classified as an inverter failure. The root cause affecting motor startup must be eliminated.",
+
+chapter_replacement:"4. SEW BE20B Brake Replacement Procedure",
+tools_title:"1. Tools Required",
+tool1:"Digital multimeter.",
+tool2:"Electrical test equipment suitable for the site voltage level.",
+tool3:"Hex/Allen keys.",
+tool4:"Socket / combination wrenches.",
+tool5:"Torque wrench.",
+tool6:"Feeler gauge.",
+tool7:"Cleaning cloth.",
+tool8:"Suitable cleaning agent where required.",
+tool9:"Personal protective equipment.",
+tool10:"Required mechanical anti-drop/support equipment.",
+safety_title:"2. Safety Measures",
+high_risk:"The stacker crane lifting mechanism is a high-risk mechanical system.",
+safety_before:"Before removing the brake, ensure:",
+safe1:"Equipment is stopped.",
+safe2:"Main power is disconnected.",
+safe3:"LOTO / Lockout-Tagout is applied.",
+safe4:"No unexpected electrical startup is possible.",
+safe5:"The lifting load is mechanically supported.",
+safe6:"Forks, load or lifting platform cannot suddenly fall.",
+safe7:"The motor and brake cannot operate unexpectedly.",
+remove_title:"3. BE20B Removal Procedure",
+remove1_title:"Record Original Condition",
+remove1_text:"Before disassembly, photograph the motor, brake, wiring and rectifier. Record cable numbers and terminal positions.",
+remove2_title:"Isolate Energy",
+remove2_text:"Disconnect equipment power, apply LOTO and verify absence of voltage with suitable instruments.",
+remove3_title:"Disconnect Brake Wiring",
+remove3_text:"Disconnect the brake coil wiring and clearly identify all wires and terminals.",
+remove4_title:"Remove Mounting Components",
+remove4_text:"Remove the mounting bolts according to the specific SEW motor and BE20B brake configuration.",
+remove5_title:"Remove Brake Assembly",
+remove5_text:"Avoid damaging the motor shaft, friction surfaces and electrical connections during removal.",
+inspect_title:"4. Inspection After Removal",
+inspect_component:"Component",
+inspect_content:"Inspection",
+result:"Result",
+inspect_friction:"Wear, burning, contamination",
+coil:"Coil",
+inspect_coil:"Appearance, wiring, insulation",
+yoke:"Yoke",
+inspect_yoke:"Condition of pull-in surface",
+inspect_spring:"Damage",
+mounting_surface:"Mounting Surface",
+inspect_surface:"Foreign material",
+shaft:"Motor Shaft",
+inspect_shaft:"Abnormal wear",
+install_title:"5. Installing the New BE20B",
+install_text:"Confirm that the replacement brake matches the original motor configuration before installation.",
+do_not_only:"Do not identify the replacement only by the words “BE20B”.",
+verify_items:"Verify all of the following:",
+verify1:"Motor model.",
+verify2:"Brake model.",
+verify3:"Brake-coil rated voltage.",
+verify4:"Braking torque.",
+verify5:"Mounting dimensions.",
+verify6:"Applicable SEW technical documentation.",
+install_flow_title:"Basic Installation Flow",
+clean_surface:"Clean Mounting Surface",
+install_be20b:"Install BE20B",
+fix_bolts:"Secure Bolts",
+connect_coil:"Connect Coil",
+adjust_gap:"Adjust Air Gap",
+measure_confirm:"Measure and Confirm",
+adjust_title:"6. BE20B Brake Air-Gap Adjustment",
+adjust_text:"The brake working air gap must be adjusted according to the specified value in the applicable SEW motor and BE20B brake documentation.",
+no_fixed_gap:"This training material does not recommend one universal fixed air-gap value for every BE20B.",
+gap_reason:"Actual brake configuration, version and motor combination may differ. Always use the applicable SEW technical documentation, brake nameplate and maintenance specification.",
+feeler_method:"Feeler Gauge Measurement",
+measure1:"Ensure the motor and brake are safe and de-energized.",
+measure2:"Locate the specified brake air-gap measurement points.",
+measure3:"Measure the actual air gap using a feeler gauge.",
+measure4:"Check at different positions and confirm that the gap is uniform.",
+measure5:"Adjust to the specified value according to SEW documentation.",
+measure6:"Recheck and record the final measured value.",
+gap_notes_title:"Air-Gap Adjustment Notes",
+gap_note1:"Do not measure at only one position.",
+gap_note2:"Do not replace feeler-gauge measurement with visual inspection.",
+gap_note3:"Do not arbitrarily reduce the gap just to make the brake pull in more easily.",
+gap_note4:"Do not exceed the manufacturer's maximum working air gap.",
+gap_note5:"After adjustment, perform both energized release and de-energized braking tests.",
+
+chapter_test:"5. Post-Repair Testing",
+static_title:"1. Static Inspection",
+test_item:"Inspection Item",
+record:"Record",
+be20b_model:"BE20B Model",
+rated_voltage:"Brake-Coil Rated Voltage",
+input:"Input",
+output:"Output",
+brake_gap:"Brake Air Gap",
+dynamic_title:"2. Dynamic Test",
+dynamic_intro:"After installation, start with a low-risk, low-speed test.",
+test_sequence:"Test Sequence",
+precheck:"Pre-Power Check",
+jog:"Jog",
+low_speed:"Low-Speed Run",
+stop:"Stop",
+repeat_start:"Repeated Start",
+normal_operation:"Normal Operation",
+observe:"Key Observations",
+observe1:"Does the brake release promptly?",
+observe2:"Is the motor startup sound normal?",
+observe3:"Is motor startup smooth?",
+observe4:"Is there abnormal mechanical friction noise?",
+observe5:"Does F7900 appear again?",
+observe6:"Does the brake stop the motor reliably?",
+observe7:"Is there abnormal slipping after motor stop?",
+load_title:"3. Lifting Load Test",
+load_warning_title:"Load testing must follow site safety procedures.",
+load_warning:"First perform a no-load or low-risk test. After brake operation, motor operation and inverter status are confirmed normal, gradually proceed to the actual working load.",
+test_project:"Test",
+normal_standard:"Normal Standard",
+up:"Up",
+up_standard:"Smooth startup, no abnormal alarm",
+down:"Down",
+down_standard:"Stable operation, no abnormal alarm",
+stop_test:"Stop",
+stop_standard:"Reliable braking, no significant slip",
+repeat_test:"Repeated Start",
+repeat_standard:"No F7900 during repeated testing",
+sound:"Sound",
+sound_standard:"No abnormal friction noise",
+temperature_test:"Temperature Rise",
+temperature_standard:"No abnormal heating",
+
+chapter_troubleshooting:"6. Troubleshooting",
+f7900_reason:"Startup abnormality / stall-related fault",
+f7900_check:"Review history, current, mechanical resistance and brake",
+contactor_not:"Contactor does not engage",
+control_abnormal:"Control circuit abnormality",
+plc_control:"PLC output, coil voltage, control fuse",
+contactor_yes:"Contactor engages but brake does not release",
+rectifier_brake_fault:"Rectifier or brake wiring fault",
+check_gbe:"Check GBE1.5 input/output",
+no_rectifier_output:"No rectifier output",
+rectifier_damage:"Rectifier damaged or input abnormal",
+measure_ac_dc:"Measure AC input and DC output",
+output_but_no_release:"Rectifier output normal but brake does not release",
+coil_or_mechanical:"Coil or mechanical problem",
+check_coil_yoke_gap:"Check coil, yoke and air gap",
+gap_excessive:"Brake air gap excessive",
+wear_adjustment:"Friction disc wear or adjustment problem",
+feeler_adjust:"Measure with feeler gauge and adjust according to SEW documentation",
+gap_contamination:"Air gap, contamination or mechanical sticking",
+inspect_brake:"Inspect brake mechanism",
+humming:"Motor hums during startup but does not rotate",
+humming_reason:"Brake not fully released or mechanical stall",
+humming_check:"Check BE20B, gearbox and load",
+brake_heat:"Brake becomes hot during operation",
+heat_reason:"Brake remains in friction",
+heat_check:"Check release condition and air gap",
+still_fault:"F7900 remains after repair",
+not_resolved:"Root cause not fully eliminated",
+repeat_diagnosis:"Review history, operating data and mechanical system again",
+diagnosis_tree_title:"Diagnostic Tree",
+tree_command:"Run command present?",
+tree_contactor:"Does contactor operate?",
+tree_input:"GBE1.5 input present?",
+tree_output:"GBE1.5 output present?",
+tree_brake:"Does brake release?",
+tree_gap:"Is air gap normal?",
+tree_normal:"Motor runs normally",
+quick_rule_title:"Quick Troubleshooting Rule",
+quick_rule:"Check fault → check history → check command → check contactor → check rectifier → check brake → finally check mechanics.",
+
+chapter_checklist:"7. BE20B Maintenance Checklist",
+number:"No.",
+check_content:"Inspection / Maintenance Item",
+complete:"Complete",
+remark:"Remarks",
+c1:"Record inverter model",
+c2:"Record current F7900 fault",
+c3:"Enter Diagnostics using BOP-2",
+c4:"Enter Faults and view current fault",
+c5:"View Fault History",
+c6:"Record historical fault sequence",
+c7:"Check run command",
+c8:"Check lifting contactor",
+c9:"Check GBE1.5 AC input",
+c10:"Check GBE1.5 DC output",
+c11:"Check brake coil",
+c12:"Inspect BE20B mechanical structure",
+c13:"Inspect brake friction disc",
+c14:"Check brake working air gap",
+c15:"Complete brake replacement",
+c16:"Complete air-gap adjustment",
+c17:"Complete static test",
+c18:"Complete no-load test",
+c19:"Complete lifting test",
+c20:"Confirm F7900 does not return",
+
+chapter_summary:"8. Training Summary",
+final_conclusion:"Final Case Conclusion",
+conclusion1:"The stacker crane lifting fault appeared as an F7900 inverter alarm.",
+conclusion2:"After systematic inspection:",
+judgement_stall:"Suspect stall",
+find_large_gap:"Excessive air gap found",
+root_cause:"Root cause confirmed",
+final_conclusion_text:"The BE20B brake air gap was excessive, preventing reliable electromagnet pull-in. The brake could not fully release, so the motor started against mechanical braking resistance, causing abnormal startup and an inverter fault.",
+three_core:"Three Core Skills Technicians Must Master",
+core1_title:"1. Reading Inverter Fault History",
+core1_text:"Master: BOP-2 → Diagnostics → Faults → History",
+core1_more:"Do not only look at the current fault; analyze the sequence of historical faults.",
+core2_title:"2. Performing Step-by-Step Electrical Checks",
+core2_intro:"Be able to distinguish:",
+core2_1:"Inverter problems.",
+core2_2:"Run-command problems.",
+core2_3:"Contactor problems.",
+core2_4:"GBE1.5 rectifier problems.",
+core2_5:"Brake-coil problems.",
+core2_6:"Electrical wiring problems.",
+core3_title:"3. Diagnosing Mechanical Problems",
+core3_intro:"Do not check only whether the brake has electrical power.",
+core3_text:"Even when brake-coil supply is normal, the brake may fail to release because of:",
+core3_1:"Excessive working air gap.",
+core3_2:"Severely worn friction disc.",
+core3_3:"Restricted yoke movement.",
+core3_4:"Brake contamination.",
+core3_5:"Mechanical sticking.",
+core3_end:"Any of these conditions may prevent normal brake release.",
+final_method_title:"Final Maintenance Approach",
+final_method:`F7900 appears
+    ↓
+Do not immediately replace the inverter
+    ↓
+Read current fault
+    ↓
+Check BOP-2 fault history
+    ↓
+Confirm equipment operation when fault occurred
+    ↓
+Confirm run command
+    ↓
+Check lifting contactor
+    ↓
+Check GBE1.5 input
+    ↓
+Check GBE1.5 output
+    ↓
+Check brake coil
+    ↓
+Check BE20B mechanical brake
+    ↓
+Measure brake air gap
+    ↓
+Confirm whether gap exceeds specification
+    ↓
+Adjust or replace BE20B
+    ↓
+Static test
+    ↓
+Low-speed test
+    ↓
+Lifting test
+    ↓
+Review fault history again
+    ↓
+Confirm F7900 does not return
+    ↓
+Repair completed`,
+training_standard:"Training Completion Standard",
+training_standard_intro:"After completing this training, technicians should be able to independently:",
+skill1:"Read SINAMICS inverter faults.",
+skill2:"Use BOP-2 to view the current fault.",
+skill3:"Use BOP-2 to view Fault History.",
+skill4:"Build a fault chain from historical records.",
+skill5:"Check the lifting contactor.",
+skill6:"Measure GBE1.5 input and output.",
+skill7:"Determine whether brake supply is normal.",
+skill8:"Identify BE20B mechanical brake faults.",
+skill9:"Use a feeler gauge to check brake air gap.",
+skill10:"Complete BE20B replacement.",
+skill11:"Adjust the air gap according to applicable SEW documentation.",
+skill12:"Complete static, dynamic and lifting tests after repair.",
+footer1:"SEW Motor BE20B Brake Replacement & Stacker Crane Lifting Fault Diagnosis Training",
+footer2:"This material is for maintenance training. Actual parameters must be based on the equipment nameplate, applicable SEW technical documentation and site safety requirements."
+},
+
+/* ==========================================================
+   SERBIAN
+========================================================== */
+
+sr: {
+
+side_title:"SEW BE20B<br>Obuka za zamenu kočnice",
+side_subtitle:"Dijagnostika i održavanje sistema podizanja regalnog dizaličara",
+
+nav_case:"1. Analiza slučaja",
+nav_case_overview:"1. Simptomi kvara",
+nav_fault_code:"2. Kod greške F7900",
+nav_history:"3. Istorija grešaka BOP-2",
+nav_history_detail:"4. Detaljna provera istorije grešaka",
+nav_diagnosis:"5. Kompletan dijagnostički postupak",
+
+nav_rectifier:"2. Ispravljač GBE1.5",
+nav_rectifier_principle:"1. Funkcija ispravljača",
+nav_rectifier_input:"2. Merenje ulaznog napona",
+nav_rectifier_output:"3. Merenje izlaznog napona",
+nav_rectifier_judgement:"4. Procena normalnih vrednosti",
+nav_rectifier_fault:"5. Dijagnostika kvara ispravljača",
+
+nav_brake:"3. Konstrukcija kočnice BE20B",
+nav_brake_principle:"1. Princip rada",
+nav_brake_components:"2. Glavne komponente",
+nav_brake_gap:"3. Radni zazor kočnice",
+nav_gap_fault:"4. Uticaj prevelikog zazora",
+
+nav_replacement:"4. Zamena kočnice BE20B",
+nav_tools:"1. Potreban alat",
+nav_safety:"2. Mere bezbednosti",
+nav_remove:"3. Postupak demontaže",
+nav_inspect:"4. Kontrola delova",
+nav_install:"5. Postupak montaže",
+nav_adjust:"6. Podešavanje zazora",
+
+nav_test:"5. Testiranje nakon popravke",
+nav_static:"1. Statički test",
+nav_dynamic:"2. Dinamički test",
+nav_load:"3. Test pod opterećenjem",
+nav_troubleshooting:"6. Otklanjanje kvarova",
+nav_checklist:"7. Kontrolna lista održavanja",
+nav_summary:"8. Sažetak obuke",
+
+badge_stacker:"Regalni dizaličar",
+badge_lift:"Sistem podizanja",
+title:"SEW motor BE20B – Detaljni materijal za obuku za zamenu kočnice",
+subtitle:"Obuka za dijagnostiku sistema podizanja regalnog dizaličara, proveru ispravljača i kontrolu i zamenu elektromagnetne kočnice BE20B",
+case_summary:"Tipičan slučaj: alarm F7900 → sumnja na blokadu motora → provera kontaktora → provera GBE1.5 ispravljača → provera kočnice → utvrđen prevelik zazor → kočnica se ne oslobađa pouzdano",
+
+chapter_case:"1. Analiza slučaja: kvar pogona za podizanje regalnog dizaličara",
+case_background_label:"Opis slučaja:",
+case_background:"Regalni dizaličar na liniji skladišta broj 11 nije mogao normalno da pokrene mehanizam za podizanje. Dijagnostika je započeta od alarma frekventnog regulatora. Nakon provere istorije grešaka, kontaktora, ispravljača i SEW BE20B kočnice, utvrđeno je da je radni zazor kočnice prevelik. Zbog toga kočnica nije mogla pouzdano da se oslobodi, pa je motor pri pokretanju radio protiv mehaničkog otpora.",
+case_symptom_title:"1. Simptomi kvara",
+case_symptom_text:"Tokom normalnog mirovanja opreme nije bilo očiglednih problema. Kada regalni dizaličar dobije komandu za podizanje ili spuštanje, motor podizanja ne može normalno da startuje i frekventni regulator prijavljuje grešku.",
+th_item:"Stavka",
+th_site:"Stanje na terenu",
+equipment:"Oprema",
+equipment_v:"Regalni dizaličar automatskog skladišta",
+mechanism:"Mehanizam",
+mechanism_v:"Mehanizam za podizanje regalnog dizaličara",
+motor:"Motor",
+motor_v:"SEW trofazni asinhroni motor",
+brake:"Kočnica",
+inverter:"Frekventni regulator",
+fault_code:"Kod greške",
+site_symptom:"Simptom",
+site_symptom_v:"Nakon komande za podizanje motor ne može normalno da uspostavi rotaciju",
+initial_judgement:"Početna procena",
+initial_judgement_v:"Blokada motora / abnormalno pokretanje",
+final_reason:"Konačni uzrok",
+final_reason_v:"Prevelik zazor kočnice BE20B; kočnica se ne oslobađa pouzdano",
+
+fault_title:"2. Kod greške frekventnog regulatora F7900",
+important_note:"Važna napomena:",
+fault_note:"Tačno značenje F7900 mora se potvrditi prema konkretnom modelu SINAMICS regulatora, verziji firmvera i fabričkim dijagnostičkim informacijama. U ovom primeru F7900 predstavlja početnu tačku dijagnostike. Cilj je da se pronađe stvarni uzrok, a ne da se regulator odmah zameni.",
+diagnosis_chain:`Zapis kvara:
+
+Regulator: SINAMICS
+Kod greške: F7900
+Oprema: Podizanje regalnog dizaličara
+Simptom: Motor ne radi normalno nakon starta
+Početna procena: Blokada / abnormalno pokretanje
+
+Pravac dijagnostike:
+
+Regulator
+   ↓
+Start komanda
+   ↓
+Kontaktor
+   ↓
+Ispravljač GBE1.5
+   ↓
+Namotaj kočnice
+   ↓
+Mehanička kočnica BE20B
+   ↓
+Zazor kočnice
+   ↓
+Da li osovina motora može slobodno da se okreće?`,
+
+history_title:"3. Pregled istorije grešaka pomoću BOP-2",
+history_text:"Prilikom otklanjanja kvara ne treba gledati samo trenutnu grešku regulatora. Kod povremenih kvarova regalnog dizaličara istorija grešaka je veoma važna.",
+history_path_title:"3.1 Osnovni put kroz BOP-2 meni",
+training_requirement:"Zahtev za obuku:",
+training_requirement_text:"Nazivi menija mogu se malo razlikovati u zavisnosti od modela SINAMICS regulatora i verzije softvera panela. Uvek pratite stvarni prikaz na uređaju. Osnovni princip je:",
+history_detail_title:"4. Detaljna provera istorije grešaka",
+history_step1_title:"Prvi korak: Nemojte odmah resetovati uređaj",
+history_step1_text:"Nakon pojave F7900 nemojte odmah pritisnuti Reset. Preuranjeni reset može ukloniti važne informacije o stanju u trenutku kvara.",
+record_items:"Prvo zabeležite:",
+record1:"Kod greške.",
+record2:"Vreme nastanka greške.",
+record3:"Koju je radnju oprema tada izvršavala.",
+record4:"Da li se motor kretao nagore ili nadole.",
+record5:"Da li se pre kvara čuo neuobičajen zvuk.",
+record6:"Da li je kočnica radila.",
+record7:"Da li su se pojavile druge greške.",
+diag_menu:"Otvorite Diagnostics",
+diag_menu_text:"Na glavnom ekranu BOP-2 pronađite Diagnostics.",
+fault_menu:"Otvorite Faults",
+fault_menu_text:"Izaberite Diagnostics → Faults i proverite da li postoji aktivna greška.",
+history_menu:"Pregled istorije grešaka",
+history_menu_text:"U meniju Faults pronađite History, Fault History ili zapis istorijskih grešaka.",
+time_analysis:"Analiza po vremenskom redosledu",
+time_analysis_text:"Pregledajte greške hronološki i utvrdite kako se razvijao lanac kvara.",
+example_history:"Primer istorije:",
+history_example:`Poslednja:
+F7900
+
+Prethodna:
+F7900
+
+Ranija:
+Greška povezana sa prekomernom strujom / preopterećenjem
+
+Ranija:
+Nema greške`,
+history_logic:"Ne treba odmah zaključiti da je sam frekventni regulator neispravan. Treba razmotriti vezu između povećanog mehaničkog otpora, otežanog starta motora, povećane struje i detekcije greške regulatora.",
+mechanical_resistance:"Povećan mehanički otpor",
+motor_start:"Otežan start motora",
+current_increase:"Povećana struja",
+inverter_detection:"Regulator detektuje abnormalnost",
+history_question_title:"Način razmišljanja pri dijagnostici",
+diagnosis_thinking:"Ne pitajte samo: „Šta je F7900?“",
+ask_more:"Postavite sledeća pitanja:",
+question1:"Da li je bilo drugih grešaka pre F7900?",
+question2:"Da li je motor imao komandu za rad kada se greška pojavila?",
+question3:"Da li se kočnica oslobodila?",
+question4:"Da li je kontaktor uključio?",
+question5:"Da li ispravljač ima izlaz?",
+question6:"Da li motor proizvodi normalan zvuk pri startu?",
+question7:"Da li je osovina motora mehanički kočena?",
+complete_diagnosis:"5. Kompletan dijagnostički postupak",
+view_history:"Pregled istorije",
+confirm_command:"Provera start komande",
+check_contactor:"Provera kontaktora",
+check_brake:"Provera kočnice",
+check_gap:"Provera zazora",
+confirm_fault:"Potvrda uzroka",
+stage1:"Prva faza: Provera frekventnog regulatora",
+stage1_text:"Proverite komandu za rad, zadatu frekvenciju i istoriju grešaka.",
+stage2:"Druga faza: Provera kontaktora",
+stage2_text:"Proverite upravljački napon zavojnice kontaktora, kontakte i mehanički rad.",
+stage3:"Treća faza: Provera ispravljača",
+stage3_text:"Potvrdite AC ulaz GBE1.5 i proverite da li postoji DC izlaz.",
+stage4:"Četvrta faza: Provera BE20B",
+stage4_text:"Ako je električno napajanje normalno, a kočnica se ne oslobađa, proverite zavojnicu, magnetni sklop, frikcioni disk i radni zazor.",
+stage5:"Peta faza: Potvrda mehaničkog uzroka",
+gap_too_large:"Prevelik zazor kočnice",
+gap_effect:"Prevelik zazor smanjuje dovoljan hod elektromagneta, pa kočnica ne može pouzdano da se oslobodi. Motor pri startu savladava mehaničko kočenje i regulator na kraju prijavljuje grešku.",
+
+chapter_rectifier:"2. Provera SEW ispravljača kočnice GBE1.5",
+rectifier_function_title:"1. Funkcija ispravljača",
+rectifier_function:"SEW kočnica motora obično koristi ispravljač za pretvaranje AC napajanja u DC napon potreban za zavojnicu kočnice.",
+ac_input:"AC ulaz",
+dc_output:"DC izlaz",
+brake_coil:"Zavojnica kočnice",
+brake_release:"Oslobađanje kočnice",
+rectifier_input_title:"2. Merenje ulaznog napona GBE1.5",
+rectifier_input:"Najpre proverite stvarno ožičenje na terenu. Ne određujte ulazni napon samo prema modelu ispravljača. Multimetar postavite na AC napon i merite prema električnoj šemi i oznakama priključaka.",
+rectifier_output_title:"3. Merenje DC izlaza GBE1.5",
+rectifier_output:"Prilikom merenja izlaza ispravljača multimetar postavite na DC napon.",
+danger_electric:"Upozorenje:",
+danger_electric_text:"Na izlazu ispravljača može postojati opasan DC napon. Merenje sme da vrši samo kvalifikovano osoblje odgovarajućom opremom i mernim kablovima.",
+rectifier_judgement_title:"4. Kako proceniti normalnu vrednost GBE1.5",
+important:"Veoma važno:",
+rectifier_warning:"Ne treba pretpostaviti da GBE1.5 uvek mora imati jednu fiksnu izlaznu vrednost. Napon kočnice, način ispravljanja, ožičenje i konfiguracija kočnice moraju se potvrditi prema konkretnom SEW motoru i pločici zavojnice kočnice.",
+correct_method:"Ispravan način provere:",
+check_rating1:"Proverite pločicu motora i kočnice.",
+check_rating2:"Potvrdite stvarno ožičenje ispravljača.",
+check_rating3:"Potvrdite AC ulazni napon.",
+check_rating4:"Potvrdite DC izlazni napon.",
+check_rating5:"Uporedite izmerenu vrednost sa nazivnim naponom zavojnice kočnice i dozvoljenim opsegom proizvođača.",
+record_format:"Preporučeni zapis merenja",
+item:"Stavka",
+rated:"Nazivna vrednost",
+measured:"Izmerena vrednost",
+judgement:"Procena",
+coil_voltage:"Zavojnica kočnice",
+release_test:"Oslobađanje pri startu",
+should_release:"Mora pouzdano da se oslobodi",
+rectifier_fault_title:"5. Dijagnostika kvara ispravljača",
+symptom:"Simptom",
+possible_reason:"Mogući uzrok",
+check_direction:"Provera",
+no_input:"Nema ulaznog napona",
+control_fault:"Problem u upravljačkom kolu",
+contactor_fuse:"Kontaktor, osigurač i upravljačko kolo",
+input_ok_output_no:"Ulaz normalan, nema izlaznog napona",
+rectifier_fault:"Kvar ispravljača ili ožičenja",
+wiring:"Ožičenje",
+terminal:"Priključak",
+output_abnormal:"Abnormalan izlazni napon",
+rectifier_supply_fault:"Problem ispravljača, napajanja ili opterećenja",
+verify_wiring:"Proveriti ožičenje i specifikaciju",
+output_ok_brake_no:"Izlaz normalan, ali kočnica se ne oslobađa",
+coil_mechanical:"Problem zavojnice ili mehanike",
+coil_magnet_gap:"Zavojnica, magnet i zazor",
+intermittent:"Povremeno oslobađanje kočnice",
+contact_gap:"Loš električni kontakt ili problem zazora",
+terminal_coil_gap:"Priključci, zavojnica i zazor",
+
+chapter_brake:"3. Konstrukcija i princip rada SEW BE20B kočnice",
+brake_principle_title:"1. Princip rada BE20B",
+brake_principle:"BE20B je elektromagnetna opružna kočnica. Osnovni princip je: koči bez napajanja, oslobađa se kada je pod naponom.",
+stop_state:"Motor zaustavljen",
+coil_off:"Zavojnica kočnice bez napajanja",
+magnetic_force_off:"Magnetna sila nestaje",
+spring_force:"Opruga vrši pritisak",
+friction_brake:"Frikcioni disk koči",
+start_state:"Start motora",
+run_command:"Komanda za rad",
+coil_on:"Zavojnica kočnice pod naponom",
+magnet_pull:"Elektromagnet privlači",
+release:"Kočnica se oslobađa",
+motor_run:"Motor radi",
+components_title:"2. Glavne komponente BE20B",
+component:"Komponenta",
+function:"Funkcija",
+inspection:"Uobičajena provera",
+brake_coil_component:"Zavojnica kočnice",
+coil_function:"Stvara elektromagnetnu silu",
+coil_inspection:"Napajanje, otpor, izolacija",
+magnet_yoke:"Magnetni sklop / elektromagnet",
+magnet_function:"Mehanizam privlačenja i oslobađanja",
+magnet_inspection:"Kretanje, habanje, zaprljanost",
+friction_disc:"Frikcioni disk",
+friction_function:"Stvara kočioni moment",
+friction_inspection:"Habanje, pregrevanje, zaprljanost",
+spring:"Opruga",
+spring_function:"Obezbeđuje kočionu silu",
+spring_inspection:"Oštećenje, zamor",
+adjustment:"Mehanizam za podešavanje",
+adjust_function:"Podešava radni zazor",
+adjust_inspection:"Zazor u dozvoljenim granicama",
+bolts:"Montažni vijci",
+bolt_function:"Fiksiraju sklop kočnice",
+bolt_inspection:"Labavost, moment zatezanja",
+gap_title:"3. Radni zazor kočnice",
+gap_text:"Radni zazor kočnice je jedan od najvažnijih parametara pri održavanju BE20B.",
+gap_small:"Ako je zazor premali, frikcioni disk se možda neće potpuno odvojiti i može doći do stalnog trenja tokom rada.",
+gap_large:"Ako je zazor prevelik, elektromagnet možda neće imati dovoljan hod i kočnica se neće pouzdano osloboditi.",
+gap_small_label:"Premali zazor",
+running_friction:"Trenje tokom rada",
+temperature:"Porast temperature",
+gap_large_label:"Prevelik zazor",
+insufficient_pull:"Nedovoljan hod elektromagneta",
+incomplete_release:"Nepotpuno oslobađanje kočnice",
+motor_difficult:"Otežan start motora",
+gap_fault_title:"4. Uticaj prevelikog zazora u ovom slučaju",
+final_fault_chain:"Konačni lanac kvara:",
+chain1:"Prevelik zazor kočnice BE20B",
+chain2:"Nedovoljan hod elektromagneta",
+chain3:"Kočnica se ne oslobađa potpuno",
+chain4:"Motor pri startu savladava mehanički otpor",
+chain5:"Motor ne može normalno da uspostavi rotaciju",
+chain6:"Regulator detektuje abnormalnost",
+not_inverter:"Zato ovaj slučaj ne treba jednostavno klasifikovati kao kvar frekventnog regulatora. Potrebno je ukloniti osnovni uzrok otežanog starta motora.",
+
+chapter_replacement:"4. Postupak zamene SEW BE20B kočnice",
+tools_title:"1. Potreban alat",
+tool1:"Digitalni multimetar.",
+tool2:"Električna merna oprema odgovarajuća za naponski nivo sistema.",
+tool3:"Imbus ključevi.",
+tool4:"Nasadni / kombinovani ključevi.",
+tool5:"Moment ključ.",
+tool6:"Listići za merenje zazora.",
+tool7:"Krpa za čišćenje.",
+tool8:"Odgovarajuće sredstvo za čišćenje.",
+tool9:"Lična zaštitna oprema.",
+tool10:"Potrebna mehanička oprema za sprečavanje pada.",
+safety_title:"2. Mere bezbednosti",
+high_risk:"Mehanizam podizanja regalnog dizaličara predstavlja mehanički sistem visokog rizika.",
+safety_before:"Pre demontaže kočnice obavezno proveriti:",
+safe1:"Oprema je zaustavljena.",
+safe2:"Glavno napajanje je isključeno.",
+safe3:"Primenen je LOTO / Lockout-Tagout.",
+safe4:"Nije moguće neočekivano električno pokretanje.",
+safe5:"Teret sistema podizanja je mehanički obezbeđen.",
+safe6:"Viljuške, teret ili platforma ne mogu iznenada da padnu.",
+safe7:"Motor i kočnica ne mogu neočekivano da se pokrenu.",
+remove_title:"3. Postupak demontaže BE20B",
+remove1_title:"Zabeležite početno stanje",
+remove1_text:"Pre demontaže fotografišite motor, kočnicu, ožičenje i ispravljač. Zabeležite oznake kablova i položaje priključaka.",
+remove2_title:"Izolujte energiju",
+remove2_text:"Isključite napajanje, primenite LOTO i odgovarajućim instrumentom potvrdite odsustvo napona.",
+remove3_title:"Odvojite električne priključke kočnice",
+remove3_text:"Odvojite ožičenje zavojnice kočnice i jasno označite sve žice i priključke.",
+remove4_title:"Uklonite elemente za pričvršćivanje",
+remove4_text:"Uklonite montažne vijke prema konkretnoj SEW konfiguraciji motora i kočnice BE20B.",
+remove5_title:"Skinite sklop kočnice",
+remove5_text:"Tokom demontaže ne oštećujte osovinu motora, frikcione površine i električne priključke.",
+inspect_title:"4. Kontrola nakon demontaže",
+inspect_component:"Komponenta",
+inspect_content:"Kontrola",
+result:"Rezultat",
+inspect_friction:"Habanje, pregrevanje, zaprljanost",
+coil:"Zavojnica",
+inspect_coil:"Izgled, ožičenje, izolacija",
+yoke:"Magnetni sklop",
+inspect_yoke:"Površina privlačenja",
+inspect_spring:"Oštećenje",
+mounting_surface:"Montažna površina",
+inspect_surface:"Strana tela",
+shaft:"Osovina motora",
+inspect_shaft:"Neuobičajeno habanje",
+install_title:"5. Ugradnja nove BE20B kočnice",
+install_text:"Pre ugradnje proverite da nova kočnica odgovara konfiguraciji originalnog motora.",
+do_not_only:"Ne određujte kočnicu samo prema oznaci „BE20B“.",
+verify_items:"Obavezno proverite:",
+verify1:"Model motora.",
+verify2:"Model kočnice.",
+verify3:"Nazivni napon zavojnice kočnice.",
+verify4:"Kočioni moment.",
+verify5:"Montažne dimenzije.",
+verify6:"Odgovarajuću SEW tehničku dokumentaciju.",
+install_flow_title:"Osnovni tok montaže",
+clean_surface:"Očistiti montažnu površinu",
+install_be20b:"Ugraditi BE20B",
+fix_bolts:"Zategnuti vijke",
+connect_coil:"Povezati zavojnicu",
+adjust_gap:"Podesiti zazor",
+measure_confirm:"Izmeriti i potvrditi",
+adjust_title:"6. Podešavanje zazora kočnice BE20B",
+adjust_text:"Radni zazor kočnice mora se podesiti prema propisanoj vrednosti iz odgovarajuće SEW dokumentacije za motor i kočnicu BE20B.",
+no_fixed_gap:"Ovaj materijal ne preporučuje jednu univerzalnu fiksnu vrednost zazora za svaku BE20B kočnicu.",
+gap_reason:"Konfiguracija kočnice, verzija i kombinacija sa motorom mogu se razlikovati. Uvek koristiti odgovarajuću SEW tehničku dokumentaciju, pločicu kočnice i servisnu specifikaciju.",
+feeler_method:"Merenje listićem za zazor",
+measure1:"Proverite da su motor i kočnica bezbedni i bez napajanja.",
+measure2:"Pronađite mesta predviđena za merenje radnog zazora.",
+measure3:"Izmerite stvarni zazor listićem za merenje.",
+measure4:"Proverite više položaja i potvrdite da je zazor ujednačen.",
+measure5:"Podesite zazor prema SEW dokumentaciji.",
+measure6:"Ponovo proverite i zabeležite konačnu vrednost.",
+gap_notes_title:"Napomene za podešavanje zazora",
+gap_note1:"Ne merite samo na jednom mestu.",
+gap_note2:"Vizuelna procena nije zamena za merenje listićem.",
+gap_note3:"Ne smanjujte zazor proizvoljno samo da bi elektromagnet lakše privukao.",
+gap_note4:"Ne prekoračujte maksimalni radni zazor proizvođača.",
+gap_note5:"Nakon podešavanja obavezno izvršiti test oslobađanja pod naponom i kočenja bez napajanja.",
+
+chapter_test:"5. Testiranje nakon popravke",
+static_title:"1. Statička kontrola",
+test_item:"Stavka provere",
+record:"Zapis",
+be20b_model:"Model BE20B",
+rated_voltage:"Nazivni napon zavojnice kočnice",
+input:"Ulaz",
+output:"Izlaz",
+brake_gap:"Zazor kočnice",
+dynamic_title:"2. Dinamički test",
+dynamic_intro:"Nakon montaže najpre izvršiti test pri maloj brzini i uz nizak rizik.",
+test_sequence:"Redosled testa",
+precheck:"Provera pre uključivanja",
+jog:"JOG / kratko pokretanje",
+low_speed:"Rad malom brzinom",
+stop:"Zaustavljanje",
+repeat_start:"Ponovljeni start",
+normal_operation:"Normalan rad",
+observe:"Ključne provere",
+observe1:"Da li se kočnica pravovremeno oslobađa?",
+observe2:"Da li je zvuk starta motora normalan?",
+observe3:"Da li je start motora miran?",
+observe4:"Da li postoji neuobičajen zvuk mehaničkog trenja?",
+observe5:"Da li se F7900 ponovo pojavljuje?",
+observe6:"Da li kočnica pouzdano zaustavlja motor?",
+observe7:"Da li postoji neuobičajeno proklizavanje nakon zaustavljanja?",
+load_title:"3. Test pod opterećenjem",
+load_warning_title:"Testiranje pod opterećenjem mora biti u skladu sa pravilima bezbednosti na lokaciji.",
+load_warning:"Najpre izvršiti test bez tereta ili uz mali rizik. Nakon potvrde normalnog rada kočnice, motora i regulatora, postepeno preći na stvarno radno opterećenje.",
+test_project:"Test",
+normal_standard:"Normalan kriterijum",
+up:"Podizanje",
+up_standard:"Miran start, bez alarma",
+down:"Spuštanje",
+down_standard:"Stabilan rad, bez alarma",
+stop_test:"Zaustavljanje",
+stop_standard:"Pouzdano kočenje, bez značajnog proklizavanja",
+repeat_test:"Ponovljeni start",
+repeat_standard:"Nema F7900 tokom ponovljenog testa",
+sound:"Zvuk",
+sound_standard:"Bez abnormalnog zvuka trenja",
+temperature_test:"Porast temperature",
+temperature_standard:"Bez abnormalnog zagrevanja",
+
+chapter_troubleshooting:"6. Otklanjanje kvarova",
+f7900_reason:"Abnormalan start / kvar povezan sa blokadom",
+f7900_check:"Proveriti istoriju, struju, mehanički otpor i kočnicu",
+contactor_not:"Kontaktor ne uključuje",
+control_abnormal:"Problem u upravljačkom kolu",
+plc_control:"PLC izlaz, napon zavojnice, upravljački osigurač",
+contactor_yes:"Kontaktor uključuje, ali kočnica se ne oslobađa",
+rectifier_brake_fault:"Kvar ispravljača ili ožičenja kočnice",
+check_gbe:"Proveriti ulaz/izlaz GBE1.5",
+no_rectifier_output:"Nema izlaza ispravljača",
+rectifier_damage:"Oštećen ispravljač ili abnormalan ulaz",
+measure_ac_dc:"Izmeriti AC ulaz i DC izlaz",
+output_but_no_release:"Izlaz ispravljača normalan, ali kočnica se ne oslobađa",
+coil_or_mechanical:"Problem zavojnice ili mehanike",
+check_coil_yoke_gap:"Proveriti zavojnicu, magnetni sklop i zazor",
+gap_excessive:"Prevelik zazor kočnice",
+wear_adjustment:"Habanje frikcionog diska ili problem podešavanja",
+feeler_adjust:"Izmeriti listićem i podesiti prema SEW dokumentaciji",
+gap_contamination:"Zazor, zaprljanost ili mehaničko zaglavljivanje",
+inspect_brake:"Pregledati mehanizam kočnice",
+humming:"Motor zuji pri startu, ali se ne okreće",
+humming_reason:"Kočnica nije potpuno oslobođena ili postoji mehanička blokada",
+humming_check:"Proveriti BE20B, reduktor i opterećenje",
+brake_heat:"Kočnica se zagreva tokom rada",
+heat_reason:"Kočnica stalno trenje",
+heat_check:"Proveriti stanje oslobađanja i radni zazor",
+still_fault:"F7900 se pojavljuje i nakon popravke",
+not_resolved:"Osnovni uzrok nije potpuno uklonjen",
+repeat_diagnosis:"Ponovo proveriti istoriju, radne podatke i mehanički sistem",
+diagnosis_tree_title:"Dijagnostičko stablo",
+tree_command:"Postoji li komanda za rad?",
+tree_contactor:"Da li kontaktor radi?",
+tree_input:"Postoji li ulaz GBE1.5?",
+tree_output:"Postoji li izlaz GBE1.5?",
+tree_brake:"Da li se kočnica oslobađa?",
+tree_gap:"Da li je zazor normalan?",
+tree_normal:"Motor radi normalno",
+quick_rule_title:"Brzo pravilo dijagnostike",
+quick_rule:"Prvo greška → zatim istorija → zatim komanda → zatim kontaktor → zatim ispravljač → zatim kočnica → na kraju mehanika.",
+
+chapter_checklist:"7. Kontrolna lista održavanja BE20B",
+number:"Br.",
+check_content:"Stavka provere",
+complete:"Završeno",
+remark:"Napomena",
+c1:"Zabeležiti model frekventnog regulatora",
+c2:"Zabeležiti trenutnu grešku F7900",
+c3:"Ući u Diagnostics pomoću BOP-2",
+c4:"Ući u Faults i pregledati trenutnu grešku",
+c5:"Pregledati Fault History",
+c6:"Zabeležiti redosled istorijskih grešaka",
+c7:"Proveriti komandu za rad",
+c8:"Proveriti kontaktor podizanja",
+c9:"Proveriti AC ulaz GBE1.5",
+c10:"Proveriti DC izlaz GBE1.5",
+c11:"Proveriti zavojnicu kočnice",
+c12:"Proveriti mehaničku konstrukciju BE20B",
+c13:"Proveriti frikcioni disk kočnice",
+c14:"Proveriti radni zazor kočnice",
+c15:"Završiti zamenu kočnice",
+c16:"Završiti podešavanje zazora",
+c17:"Završiti statički test",
+c18:"Završiti test bez tereta",
+c19:"Završiti test podizanja",
+c20:"Potvrditi da se F7900 više ne pojavljuje",
+
+chapter_summary:"8. Sažetak obuke",
+final_conclusion:"Konačni zaključak slučaja",
+conclusion1:"Kvar podizanja regalnog dizaličara pojavio se kao alarm F7900 frekventnog regulatora.",
+conclusion2:"Nakon sistematske provere:",
+judgement_stall:"Sumnja na blokadu",
+find_large_gap:"Utvrđen prevelik zazor",
+root_cause:"Potvrđen osnovni uzrok",
+final_conclusion_text:"Radni zazor kočnice BE20B bio je prevelik, zbog čega elektromagnet nije mogao pouzdano da privuče. Kočnica se nije potpuno oslobađala, pa je motor pri startu radio protiv mehaničkog kočenja, što je izazvalo abnormalan start i grešku regulatora.",
+three_core:"Tri ključne veštine koje tehničar mora da savlada",
+core1_title:"1. Čitanje istorije grešaka regulatora",
+core1_text:"Savladati: BOP-2 → Diagnostics → Faults → History",
+core1_more:"Ne gledati samo trenutnu grešku, već analizirati redosled istorijskih grešaka.",
+core2_title:"2. Sistematska električna provera",
+core2_intro:"Potrebno je razlikovati:",
+core2_1:"Probleme frekventnog regulatora.",
+core2_2:"Probleme komande za rad.",
+core2_3:"Probleme kontaktora.",
+core2_4:"Probleme GBE1.5 ispravljača.",
+core2_5:"Probleme zavojnice kočnice.",
+core2_6:"Probleme električnog ožičenja.",
+core3_title:"3. Dijagnostika mehaničkih problema",
+core3_intro:"Kod kočnice nije dovoljno proveriti samo da li postoji električno napajanje.",
+core3_text:"Čak i kada je napajanje zavojnice normalno, kočnica se može ne osloboditi zbog:",
+core3_1:"Prevelikog radnog zazora.",
+core3_2:"Velikog habanja frikcionog diska.",
+core3_3:"Otežanog kretanja magnetnog sklopa.",
+core3_4:"Zaprljanosti mehanizma kočnice.",
+core3_5:"Mehaničkog zaglavljivanja.",
+core3_end:"Svaki od ovih uzroka može sprečiti normalno oslobađanje kočnice.",
+final_method_title:"Konačan pristup održavanju",
+final_method:`Pojavio se F7900
+    ↓
+Ne menjati odmah regulator
+    ↓
+Očitati trenutnu grešku
+    ↓
+Pregledati istoriju BOP-2
+    ↓
+Potvrditi stanje opreme u trenutku kvara
+    ↓
+Potvrditi komandu za rad
+    ↓
+Proveriti kontaktor podizanja
+    ↓
+Proveriti ulaz GBE1.5
+    ↓
+Proveriti izlaz GBE1.5
+    ↓
+Proveriti zavojnicu kočnice
+    ↓
+Proveriti mehaničku kočnicu BE20B
+    ↓
+Izmeriti zazor kočnice
+    ↓
+Potvrditi da li zazor prelazi dozvoljenu vrednost
+    ↓
+Podesiti ili zameniti BE20B
+    ↓
+Statički test
+    ↓
+Test malom brzinom
+    ↓
+Test podizanja
+    ↓
+Ponovo pregledati istoriju grešaka
+    ↓
+Potvrditi da se F7900 više ne pojavljuje
+    ↓
+Popravka završena`,
+training_standard:"Kriterijum završetka obuke",
+training_standard_intro:"Nakon završetka obuke tehničar treba samostalno da može da:",
+skill1:"Očita greške SINAMICS regulatora.",
+skill2:"Koristi BOP-2 za pregled trenutne greške.",
+skill3:"Koristi BOP-2 za pregled Fault History.",
+skill4:"Formira lanac kvara na osnovu istorije grešaka.",
+skill5:"Proveri kontaktor podizanja.",
+skill6:"Izmeri ulaz i izlaz GBE1.5.",
+skill7:"Proceni da li je napajanje kočnice normalno.",
+skill8:"Prepozna mehanički kvar kočnice BE20B.",
+skill9:"Koristi listić za proveru zazora kočnice.",
+skill10:"Izvrši zamenu BE20B.",
+skill11:"Podesi zazor prema odgovarajućoj SEW dokumentaciji.",
+skill12:"Izvrši statički, dinamički i test podizanja nakon popravke.",
+footer1:"SEW motor BE20B – obuka za zamenu kočnice i dijagnostiku sistema podizanja regalnog dizaličara",
+footer2:"Materijal je namenjen obuci za održavanje. Stvarni parametri moraju se zasnivati na pločici opreme, odgovarajućoj SEW tehničkoj dokumentaciji i pravilima bezbednosti na lokaciji."
+}
+
+};
+
+/* ==========================================================
+   LANGUAGE SWITCH
+========================================================== */
+
+function switchLanguage(lang){
+
+    if(!translations[lang]) return;
+
+    document.documentElement.lang =
+        lang === "zh" ? "zh-CN" :
+        lang === "en" ? "en" : "sr";
+
+    document.querySelectorAll("[data-i18n]").forEach(el=>{
+
+        const key=el.getAttribute("data-i18n");
+
+        if(translations[lang][key]!==undefined){
+
+            /*
+             * innerHTML is intentionally used here because
+             * the sidebar title contains <br>.
+             * All translation strings are local, predefined
+             * values in this document.
+             */
+            el.innerHTML=translations[lang][key];
+
+        }
+
+    });
+
+    document.querySelectorAll(".language-switcher button")
+    .forEach(btn=>{
+
+        btn.classList.toggle(
+            "active",
+            btn.dataset.lang===lang
+        );
+
+    });
+
+    localStorage.setItem(
+        "sew-training-language",
+        lang
+    );
+
+    updateDocumentTitle(lang);
+}
+
+/* ==========================================================
+   DOCUMENT TITLE
+========================================================== */
+
+function updateDocumentTitle(lang){
+
+    const titles={
+        zh:"SEW电机BE20B刹车更换详细培训资料",
+        en:"SEW BE20B Brake Replacement Training",
+        sr:"SEW BE20B – Obuka za zamenu kočnice"
+    };
+
+    document.title=titles[lang]||titles.zh;
+}
+
+/* ==========================================================
+   SIDEBAR ACTIVE SECTION
+========================================================== */
+
+const sections=document.querySelectorAll(".section");
+const navLinks=document.querySelectorAll(".sidebar-nav a");
+
+const observer=new IntersectionObserver(
+
+    entries=>{
+
+        entries.forEach(entry=>{
+
+            if(entry.isIntersecting){
+
+                const id=entry.target.id;
+
+                navLinks.forEach(link=>{
+
+                    link.classList.remove("active");
+
+                    if(
+                        link.getAttribute("href")==="#"+id
+                    ){
+                        link.classList.add("active");
+                    }
+
+                });
+
+            }
+
+        });
+
+    },
+
+    {
+        rootMargin:"-15% 0px -70% 0px"
+    }
+
+);
+
+sections.forEach(section=>observer.observe(section));
+
+/* ==========================================================
+   SMOOTH NAVIGATION
+========================================================== */
+
+navLinks.forEach(link=>{
+
+    link.addEventListener("click",function(event){
+
+        const targetId=this.getAttribute("href");
+
+        if(!targetId || !targetId.startsWith("#"))
+            return;
+
+        const target=document.querySelector(targetId);
+
+        if(!target)
+            return;
+
+        event.preventDefault();
+
+        target.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+
+    });
+
+});
+
+/* ==========================================================
+   KEEP ACTIVE NAV ITEM VISIBLE
+========================================================== */
+
+window.addEventListener("scroll",function(){
+
+    const activeLink=
+        document.querySelector(".sidebar-nav a.active");
+
+    if(activeLink){
+
+        const sidebar=
+            document.querySelector(".sidebar");
+
+        const linkTop=activeLink.offsetTop;
+        const linkBottom=
+            linkTop+activeLink.offsetHeight;
+
+        const visibleTop=
+            sidebar.scrollTop;
+
+        const visibleBottom=
+            sidebar.scrollTop+
+            sidebar.clientHeight;
+
+        if(linkTop<visibleTop){
+
+            sidebar.scrollTop=
+                linkTop-30;
+
+        }
+
+        if(linkBottom>visibleBottom){
+
+            sidebar.scrollTop=
+                linkBottom-
+                sidebar.clientHeight+
+                30;
+
+        }
+
+    }
+
+});
+
+/* ==========================================================
+   LOAD SAVED LANGUAGE
+========================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        const saved=
+            localStorage.getItem(
+                "sew-training-language"
+            );
+
+        if(saved && translations[saved]){
+
+            switchLanguage(saved);
+
+        }else{
+
+            switchLanguage("zh");
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
